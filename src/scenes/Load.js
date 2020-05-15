@@ -9,7 +9,6 @@ class Load extends Phaser.Scene {
 
         //placeholder
         this.load.atlas("player", "bunny.png", "bunny.json")
-        this.load.atlas("smallplayer", "sbunny.png", "sbunny.json");
 
         //level assets
 
