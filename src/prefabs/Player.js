@@ -1,6 +1,6 @@
 class Player extends Phaser.Physics.Arcade.Sprite {
     constructor(scene) {
-        super(scene, 50, 50, "player", "bunny_idle_1");
+        super(scene, 50, 50, "smallplayer", "sbunny_1");
 
         scene.add.existing(this);
         scene.physics.add.existing(this);
@@ -9,26 +9,29 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
         //animation
         //idle
-        this.scene.anims.create({
-            key: "idle",
-            frames: this.scene.anims.generateFrameNames("player", {
-                prefix: "bunny_idle_",
-                start: 1,
-                end: 5,
-            }),
-            repeat: -1,
-        });
+        // this.scene.anims.create({
+        //     key: "idle",
+        //     frames: this.scene.anims.generateFrameNames("player", {
+        //         prefix: "bunny_idle_",
+        //         start: 1,
+        //         end: 5,
+        //     }),
+        //     repeat: -1,
+        //     frameRate: 12,
+        // });
 
         //walking
         this.scene.anims.create({
             key: "walk",
-            frames: this.scene.anims.generateFrameNames("player", {
-                prefix: "bunny_run_",
+            frames: this.scene.anims.generateFrameNames("smallplayer", {
+                prefix: "sbunny_run_",
                 start: 1,
                 end: 4,
             }),
             repeat: -1,
+            frameRate: 12,
         });
+        this.anims.play("walk");
 
         this.idle = true;
         this.walk = false;
@@ -55,11 +58,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 this.body.velocity.x = 0;
 
             //play animation
-            if(this.walk) {
-                this.anims.play("walk");
-                this.walk = false;
-                this.idle = true;
-            }
+            // if(this.walk) {
+            //     this.anims.play("walk");
+            //     this.walk = false;
+            //     this.idle = true;
+            // }
         } else if (this.cursors.right.isDown) {
             this.setFlipX(true);
             this.setAccelerationX(700);
@@ -69,20 +72,20 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 this.body.velocity.x = 0;
 
             //play animation
-            if(this.walk) {
-                this.anims.play("walk");
-                this.walk = false;
-                this.idle = true;
-            }
+            // if(this.walk) {
+            //     this.anims.play("walk");
+            //     this.walk = false;
+            //     this.idle = true;
+            // }
         } else {
             this.setAccelerationX(0);
 
             //play animation
-            if(this.idle) {
-                this.anims.play("idle");
-                this.idle = false;
-                this.walk = true;
-            }
+            // if(this.idle) {
+            //     this.anims.play("idle");
+            //     this.idle = false;
+            //     this.walk = true;
+            // }
         }
 
         //jumping
