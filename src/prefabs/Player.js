@@ -6,6 +6,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this);
     
         this.scene = scene;
+        this.fallingSound = true;
+        this.holding = false;
 
         //animation
         //idle
@@ -65,6 +67,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
         //player controls
         this.cursors = scene.input.keyboard.createCursorKeys();
+        this.grab = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G);
+        this.restart = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
 
         //physics
         //slows player down 
@@ -72,7 +76,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         //world bounds
         this.setCollideWorldBounds(true);
         //max velocity
-        this.setMaxVelocity(250, 800);
+        this.setMaxVelocity(200, 700);
     }
 
     update() {
@@ -88,9 +92,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 this.body.velocity.x = 0;
 
             //play animation
-            if(this.body.blocked.left || this.body.touching.left)
-                this.anims.play("push", true);
-            else
+            if(!this.holding)
                 this.anims.play("walk", true);
         } else if (this.cursors.right.isDown) {
             this.setFlipX(true);
@@ -101,21 +103,27 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 this.body.velocity.x = 0;
 
             //play animation
-            if(this.body.blocked.right || this.body.touching.right)
-                this.anims.play("push", true);
-            else
+            if(!this.holding)
                 this.anims.play("walk", true);
         } else {
             this.setAccelerationX(0);
 
             //play animation
-            this.anims.play("idle", true);
+            if(!this.holding)
+                this.anims.play("idle", true);
         }
 
         //jumping
-        if(Phaser.Input.Keyboard.JustDown(this.cursors.up) && this.body.blocked.down){
+        if((Phaser.Input.Keyboard.JustDown(this.cursors.up) || Phaser.Input.Keyboard.JustDown(this.cursors.space)) 
+            && this.body.blocked.down && this.grab.isUp){
             this.setVelocityY(-700);
             this.setAccelerationY(500);
+        }
+
+        //landing sound
+        if(this.body.blocked.down && this.fallingSound) {
+            this.scene.sound.play("playerLand", {volume: 0.25});
+            this.fallingSound = false;
         }
 
         //play jumping or falling animation
@@ -123,6 +131,77 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             this.anims.play("jump", true);
         } else if (this.body.velocity.y > 0) {
             this.anims.play("fall", true);
+            this.fallingSound = true;
+        }
+
+        if(this.grab.isUp)
+            this.holding = false;
+
+        //restart
+        if (Phaser.Input.Keyboard.JustDown(this.restart)) {
+            this.scene.scene.start("level1");
+        }
+    }
+
+    bubbleCollision(bunny, bubble) {
+
+        if(Phaser.Input.Keyboard.JustDown(this.grab)){
+            this.scene.sound.play("push");
+        }
+
+        if(this.grab.isDown) {
+            this.holding = true;
+
+            bubble.y = bunny.y;
+
+            bunny.anims.play("push", true);
+
+            if(bunny.flipX){
+                bubble.x = bunny.x + bunny.width/2;
+            } else {
+                bubble.x = bunny.x - bunny.width/2;
+            }
+
+            bubble.body.setVelocityX(bunny.body.velocity.x);
+
+            //console.log("up");
+
+            // this.bunnyX = bunny.x;
+            // this.bubbleX = bubble.x;
+
+            //console.log("bubble x: " + this.bubbleX);
+            //console.log("bunny x: " + this.bunnyX);
+
+            //min speed of 10
+            // if(bunny.body.velocity.y < 5)
+            //     this.speed = 10;
+            // else
+            // this.speed = 200;
+
+            //if bubble is to the right
+            // if(this.bubbleX >= this.bunnyX) {
+            //     //eject to the right
+            //     //console.log("ejecting right");
+
+            //     //if blocked to the right, actually eject to the left
+            //     if (bubble.body.blocked.right) {
+            //         this.speed = -this.speed;
+            //         //console.log("blocked right, ejecting left");
+            //     }
+            // } else {
+            //     //eject to the left
+            //     //console.log("ejecting left");
+
+            //     //if blocked to the left, actually eject to the right
+            //     if(bubble.body.blocked.left) {
+            //         //console.log("blocked left, ejecting right");
+            //     } else {
+            //         this.speed = -this.speed;
+            //     }
+            // }
+
+            // //ejection
+            // bubble.body.setVelocityX(this.speed);
         }
     }
 }

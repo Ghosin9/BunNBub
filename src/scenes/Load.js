@@ -15,12 +15,25 @@ class Load extends Phaser.Scene {
 
         //ui assets
         this.load.path = "assets/ui/";
+        //main menu
+        this.load.image("mainMenu", "menu.jpg");
 
         //sound assets
         this.load.path = "assets/sound/";
+        //background music
+        this.load.audio("music", "bgmusic.wav");
+        //damage sounds
+        this.load.audio("d1", "damage1.wav");
+        this.load.audio("d2", "damage2.wav");
+        //landing audio
+        this.load.audio("bubbleLand", "landing.wav");
+        this.load.audio("playerLand", "landing2.wav");
+        //bubble noises
+        this.load.audio("pop", "pop.wav");
+        this.load.audio("push", "push.wav");
     }
 
     create() {
-        this.scene.start("level1");
+        this.scene.start("menu");
     }
 }
