@@ -6,9 +6,10 @@ class Load extends Phaser.Scene {
     preload() {
         //gameplay assets
         this.load.path = "assets/";
-
-        //placeholder
-        this.load.atlas("player", "bunny.png", "bunny.json")
+        //player
+        this.load.atlas("player", "bunny.png", "bunny.json");
+        //bubble
+        this.load.atlas("bubble", "bubble.png", "bubble.json");
 
         //level assets
 
