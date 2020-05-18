@@ -75,20 +75,27 @@ class Level_1 extends Phaser.Scene {
         this.physics.world.bounds.setTo(0, 0, map.widthInPixels, map.heightInPixels);
 
         let textConfig = {
-            fontSize: "30px",
+            fontSize: "20px",
             align: "center"
         };
 
         //temp instruction text
-        this.add.text(0, 0, "HOLD G TO GRAB", textConfig).setOrigin(0).setScrollFactor(0);
-        this.add.text(0, 25, "ARROW KEYS TO MOVE", textConfig).setOrigin(0).setScrollFactor(0);
-        this.add.text(0, 50, "R TO RESTART", textConfig).setOrigin(0).setScrollFactor(0);
-        this.add.text(0, 75, "SPIKES ONLY HURT BUBBLE", textConfig).setOrigin(0).setScrollFactor(0);
+        this.instructionText = this.add.group();
+        this.hold = this.add.text(0, 0, "HOLD G TO GRAB", textConfig).setOrigin(0).setScrollFactor(0);
+        this.arrow = this.add.text(0, 15, "ARROW KEYS TO MOVE", textConfig).setOrigin(0).setScrollFactor(0);
+        this.r = this.add.text(0, 30, "R TO RESTART", textConfig).setOrigin(0).setScrollFactor(0);
+        this.e = this.add.text(0, 45, "E TO VIEW MAP", textConfig).setOrigin(0).setScrollFactor(0);
+        this.control = this.add.text(0, 60, "CONTROL MAP WITH ARROW KEYS", textConfig).setOrigin(0).setScrollFactor(0);
+        this.spikes = this.add.text(0, 75, "SPIKES ONLY HURT BUBBLE", textConfig).setOrigin(0).setScrollFactor(0);
+        this.instructionText.add(this.hold);
+
+        console.log(this.instructionText);
 
         //set up camera to follow player
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
         this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
         this.cameras.main.setDeadzone(10, 5);
+        this.cameras.main.setSize(640, 360);
     }
 
     update() {

@@ -69,6 +69,10 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.cursors = scene.input.keyboard.createCursorKeys();
         this.grab = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G);
         this.restart = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+        this.zoom = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
+
+        //camera mode
+        this.camera = false;
 
         //physics
         //slows player down 
@@ -79,71 +83,95 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.setMaxVelocity(200, 700);
     }
 
-    update() {
+    update(time, delta) {
         super.update();
 
-        //left right
-        if(this.cursors.left.isDown){
-            this.setFlipX(false);
-            this.setAccelerationX(-700);
+        if(!this.camera) {
 
-            //allows for almost immediate direction change
-            if(this.body.velocity.x >= 0)
-                this.body.velocity.x = 0;
+            //left right
+            if(this.cursors.left.isDown){
+                this.setFlipX(false);
+                this.setAccelerationX(-700);
 
-            //play animation
-            if(!this.holding)
-                this.anims.play("walk", true);
-        } else if (this.cursors.right.isDown) {
-            this.setFlipX(true);
-            this.setAccelerationX(700);
+                //allows for almost immediate direction change
+                if(this.body.velocity.x >= 0)
+                    this.body.velocity.x = 0;
 
-            //allows for almost immediate direction change
-            if(this.body.velocity.x <= 0)
-                this.body.velocity.x = 0;
+                //play animation
+                if(!this.holding)
+                    this.anims.play("walk", true);
+            } else if (this.cursors.right.isDown) {
+                this.setFlipX(true);
+                this.setAccelerationX(700);
 
-            //play animation
-            if(!this.holding)
-                this.anims.play("walk", true);
+                //allows for almost immediate direction change
+                if(this.body.velocity.x <= 0)
+                    this.body.velocity.x = 0;
+
+                //play animation
+                if(!this.holding)
+                    this.anims.play("walk", true);
+            } else {
+                this.setAccelerationX(0);
+
+                //play animation
+                if(!this.holding)
+                    this.anims.play("idle", true);
+            }
+
+            //jumping
+            if((Phaser.Input.Keyboard.JustDown(this.cursors.up) || Phaser.Input.Keyboard.JustDown(this.cursors.space)) 
+                && this.body.blocked.down && this.grab.isUp){
+                this.setVelocityY(-700);
+                this.setAccelerationY(500);
+            }
+
+            //landing sound
+            if(this.body.blocked.down && this.fallingSound) {
+                this.scene.sound.play("playerLand", {volume: 0.25});
+                this.fallingSound = false;
+            }
+
+            //play jumping or falling animation
+            if(this.body.velocity.y < 0) {
+                this.anims.play("jump", true);
+            } else if (this.body.velocity.y > 0) {
+                this.anims.play("fall", true);
+                this.fallingSound = true;
+            }
+
+            if(this.grab.isUp) {
+                this.holding = false;
+            }
+
+            //restart
+            if (Phaser.Input.Keyboard.JustDown(this.restart)) {
+                this.scene.scene.start("level1");
+            }
+
+            //camera mode
+            if (Phaser.Input.Keyboard.JustDown(this.zoom)) {
+                this.cameraMode();
+            }
         } else {
-            this.setAccelerationX(0);
+            this.camControl.update(delta);
 
-            //play animation
-            if(!this.holding)
-                this.anims.play("idle", true);
-        }
-
-        //jumping
-        if((Phaser.Input.Keyboard.JustDown(this.cursors.up) || Phaser.Input.Keyboard.JustDown(this.cursors.space)) 
-            && this.body.blocked.down && this.grab.isUp){
-            this.setVelocityY(-700);
-            this.setAccelerationY(500);
-        }
-
-        //landing sound
-        if(this.body.blocked.down && this.fallingSound) {
-            this.scene.sound.play("playerLand", {volume: 0.25});
-            this.fallingSound = false;
-        }
-
-        //play jumping or falling animation
-        if(this.body.velocity.y < 0) {
-            this.anims.play("jump", true);
-        } else if (this.body.velocity.y > 0) {
-            this.anims.play("fall", true);
-            this.fallingSound = true;
-        }
-
-        if(this.grab.isUp)
-            this.holding = false;
-
-        //restart
-        if (Phaser.Input.Keyboard.JustDown(this.restart)) {
-            this.scene.scene.start("level1");
+            if (Phaser.Input.Keyboard.JustDown(this.zoom)) {
+                this.camera = false;
+                this.scene.cameras.main.startFollow(this, true, 0.1, 0.1);
+                this.scene.cameras.main.setSize(640, 360);
+                this.scene.cameras.main.setZoom(1);
+            }
         }
     }
 
     bubbleCollision(bunny, bubble) {
+
+        if(this.holding) {
+            bubble.body.setAllowGravity(false);
+        } else {
+            bubble.body.setAllowGravity(true);
+        }
 
         if(Phaser.Input.Keyboard.JustDown(this.grab)){
             this.scene.sound.play("push");
@@ -156,13 +184,17 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
             bunny.anims.play("push", true);
 
-            if(bunny.flipX){
-                bubble.x = bunny.x + bunny.width/2;
-            } else {
-                bubble.x = bunny.x - bunny.width/2;
+            //if not on the wall. 
+            if(!bubble.body.onWall()) {
+                if(bunny.flipX){
+                    bubble.x = bunny.x + bunny.width/2;
+                } else {
+                    bubble.x = bunny.x - bunny.width/2;
+                }
             }
 
             bubble.body.setVelocityX(bunny.body.velocity.x);
+            bubble.body.setVelocityY(bunny.body.velocity.y);
 
             //console.log("up");
 
@@ -203,5 +235,29 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             // //ejection
             // bubble.body.setVelocityX(this.speed);
         }
+    }
+
+    cameraMode() {
+
+        this.camera = true;
+
+        this.body.setAccelerationX(0);
+        this.body.setVelocityX(0);
+        this.anims.play("idle", true);
+
+        //https://github.com/nathanaltice/CameraLucida/blob/master/src/scenes/FixedController.js Nathan Altice
+        let controlConfig = {
+            camera: this.scene.cameras.main,      // which camera?
+            left: this.cursors.left,             // define keys...
+            right: this.cursors.right,
+            up: this.cursors.up,
+            down: this.cursors.down,
+            speed: { x: 0.5, y: 0.5 }         // set speed of camera (keep values low)
+        }
+
+        this.scene.cameras.main.stopFollow();
+        this.scene.cameras.main.setZoom(0.5);
+
+        this.camControl = new Phaser.Cameras.Controls.FixedKeyControl(controlConfig);
     }
 }
