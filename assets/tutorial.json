@@ -3,8 +3,8 @@
     {
      "export":
         {
-         "format":"tmx",
-         "target":"..\/..\/..\/..\/Downloads\/room_1..tmx"
+         "format":"json",
+         "target":"..\/..\/..\/wewewaewaew.json"
         }
     },
  "height":100,
@@ -73,7 +73,7 @@
                  "visible":true,
                  "width":0,
                  "x":1824,
-                 "y":320
+                 "y":304
                 }, 
                 {
                  "height":0,
@@ -85,7 +85,7 @@
                  "visible":true,
                  "width":0,
                  "x":1728,
-                 "y":320
+                 "y":304
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -410,6 +410,15 @@
                         }]
                 }, 
                 {
+                 "animation":[
+                        {
+                         "duration":200,
+                         "tileid":33
+                        }, 
+                        {
+                         "duration":200,
+                         "tileid":32
+                        }],
                  "id":33,
                  "properties":[
                         {

@@ -187,9 +187,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             //if not on the wall. 
             if(!bubble.body.onWall()) {
                 if(bunny.flipX){
-                    bubble.x = bunny.x + bunny.width/2;
+                    bubble.x = bunny.x + bunny.width/2 + 4;
                 } else {
-                    bubble.x = bunny.x - bunny.width/2;
+                    bubble.x = bunny.x - bunny.width/2 - 4;
                 }
             }
 
@@ -252,7 +252,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             right: this.cursors.right,
             up: this.cursors.up,
             down: this.cursors.down,
-            speed: { x: 0.5, y: 0.5 }         // set speed of camera (keep values low)
+            speed: { x: 0.4, y: 0.4}         // set speed of camera (keep values low)
         }
 
         this.scene.cameras.main.stopFollow();

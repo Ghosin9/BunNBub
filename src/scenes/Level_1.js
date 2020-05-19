@@ -1,9 +1,14 @@
+//import AnimatedTiles from "../../lib/phaser-animated-tiles-master/dist/AnimatedTiles.min.js"
+
 class Level_1 extends Phaser.Scene {
     constructor() {
         super("level1");
     }
 
     preload() {
+        //cancer plugin
+        this.load.scenePlugin('AnimatedTiles', AnimatedTiles, 'animatedTiles', 'animatedTiles');
+
         this.load.path = "./assets/";
         //png of tilesheet
         //1st parameter is key indicator
@@ -32,10 +37,12 @@ class Level_1 extends Phaser.Scene {
         //create static layers
         //creating static layers must be inverse order of what tiled has to display layers correctly
         //parameter must be Tiled name for layer
-        const backgroundLayer = map.createStaticLayer("Background", tileset, 0, 0);
-        const sceneryLayer = map.createStaticLayer("Scenery", tileset, 0, 0);
-        const spikeLayer = map.createStaticLayer("Spikes", tileset, 0, 0);
-        const groundLayer = map.createStaticLayer("Ground", tileset, 0, 0);
+        const backgroundLayer = map.createDynamicLayer("Background", tileset, 0, 0);
+        const sceneryLayer = map.createDynamicLayer("Scenery", tileset, 0, 0);
+        const spikeLayer = map.createDynamicLayer("Spikes", tileset, 0, 0);
+        const groundLayer = map.createDynamicLayer("Ground", tileset, 0, 0);
+
+        this.sys.animatedTiles.init(map);
 
         //create collisions for ground layer
         //property must be the same name as custom property in Tiled
@@ -89,7 +96,7 @@ class Level_1 extends Phaser.Scene {
         this.spikes = this.add.text(0, 75, "SPIKES ONLY HURT BUBBLE", textConfig).setOrigin(0).setScrollFactor(0);
         this.instructionText.add(this.hold);
 
-        console.log(this.instructionText);
+        //console.log(this.instructionText);
 
         //set up camera to follow player
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -99,6 +106,6 @@ class Level_1 extends Phaser.Scene {
     }
 
     update() {
-        
+
     }
 }

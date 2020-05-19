@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.2" tiledversion="1.3.4" orientation="orthogonal" renderorder="right-down" width="120" height="100" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="6">
  <editorsettings>
-  <export target="../../../wewewaewaew.json" format="json"/>
+  <export target="room_1..tmx" format="tmx"/>
  </editorsettings>
  <tileset firstgid="1" name="tutorial" tilewidth="16" tileheight="16" tilecount="40" columns="8">
   <image source="tilesheet.png" width="128" height="80"/>
@@ -174,10 +174,6 @@
    <properties>
     <property name="collides" type="bool" value="false"/>
    </properties>
-   <animation>
-    <frame tileid="33" duration="200"/>
-    <frame tileid="32" duration="200"/>
-   </animation>
   </tile>
   <tile id="34">
    <properties>
