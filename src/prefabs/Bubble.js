@@ -1,5 +1,5 @@
 class Bubble extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, x, y) {
+    constructor(scene, x, y, currentLevel) {
         super(scene, x, y, "bubble", "bubble_1");
 
         scene.add.existing(this);
@@ -7,6 +7,9 @@ class Bubble extends Phaser.Physics.Arcade.Sprite {
 
         this.scene = scene;
         this.bubbleSound = true;
+        this.popSound = true;
+        this.currentLevel = currentLevel;
+        this.cameraMain = this.scene.cameras.main;
 
         //physics
         this.setCollideWorldBounds(true);
@@ -31,11 +34,22 @@ class Bubble extends Phaser.Physics.Arcade.Sprite {
             repeat: -1,
         });
 
+        //pop
+        this.scene.anims.create({
+            key: "bPop",
+            frames: this.scene.anims.generateFrameNames("bubblepop", {
+                prefix: "bubble_pop",
+                start: 1,
+                end: 10,
+            }),
+            frameRate: 6,
+        })
+
         //play animation
-        this.anims.play("bIdle");
+        this.anims.play("bIdle", true);
     }
 
-    update() {
+    update(time, delta) {
         super.update();
 
         //replay bubble landing sound
@@ -47,11 +61,24 @@ class Bubble extends Phaser.Physics.Arcade.Sprite {
             this.scene.sound.play("bubbleLand");
             this.bubbleSound = false;
         }
+
+        if(!this.anims.isPlaying) {
+            //restart level
+            //this.scene.scene.start(this.currentLevel);
+        }
     }
 
     spikeCollision(bubble, spike) {
-        this.sound.play("pop");
+        if(this.popSound) {
+            this.scene.sound.play("pop");
+            this.popSound = false;
+        }
 
-        bubble.destroy();
+        this.scene.player.holding = false;
+        this.body.stop();
+        this.body.setAllowGravity(false);
+        this.body.setImmovable(true);
+
+        this.anims.play("bPop", true);
     }
 }

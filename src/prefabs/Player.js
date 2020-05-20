@@ -1,5 +1,5 @@
 class Player extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, x, y,) {
+    constructor(scene, x, y, currentLevel) {
         super(scene, x, y, "player", "sbunny_idle_1");
 
         scene.add.existing(this);
@@ -8,6 +8,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.scene = scene;
         this.fallingSound = true;
         this.holding = false;
+        this.currentLevel = currentLevel;
 
         //animation
         //idle
@@ -67,9 +68,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
         //player controls
         this.cursors = scene.input.keyboard.createCursorKeys();
-        this.grab = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.G);
+        this.grab = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.X);
+        this.zoom = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Z);
         this.restart = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
-        this.zoom = this.scene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E);
 
         //camera mode
         this.camera = false;
@@ -121,9 +122,14 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
             //jumping
             if((Phaser.Input.Keyboard.JustDown(this.cursors.up) || Phaser.Input.Keyboard.JustDown(this.cursors.space)) 
-                && this.body.blocked.down && this.grab.isUp){
-                this.setVelocityY(-700);
-                this.setAccelerationY(500);
+                && this.body.blocked.down){
+                    if(this.holding) {
+                        this.setVelocityY(-550);
+                        this.setAccelerationY(400);
+                    } else {
+                        this.setVelocityY(-700);
+                        this.setAccelerationY(500);
+                    }
             }
 
             //landing sound
@@ -140,13 +146,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 this.fallingSound = true;
             }
 
-            if(this.grab.isUp) {
-                this.holding = false;
-            }
-
             //restart
             if (Phaser.Input.Keyboard.JustDown(this.restart)) {
-                this.scene.scene.start("level1");
+                this.scene.scene.start(this.currentLevel);
             }
 
             //camera mode
@@ -166,20 +168,17 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     bubbleCollision(bunny, bubble) {
+        if (Phaser.Input.Keyboard.JustDown(this.grab)) {
+            if (this.holding) {
+                this.holding = false;
+            } else {
+                this.holding = true;
+            }
+        }
 
-        if(this.holding) {
+        if(this.holding && !this.camera) {
             bubble.body.setAllowGravity(false);
-        } else {
-            bubble.body.setAllowGravity(true);
-        }
-
-        if(Phaser.Input.Keyboard.JustDown(this.grab)){
-            this.scene.sound.play("push");
-        }
-
-        if(this.grab.isDown) {
-            this.holding = true;
-
+            
             bubble.y = bunny.y;
 
             bunny.anims.play("push", true);
@@ -195,45 +194,8 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
             bubble.body.setVelocityX(bunny.body.velocity.x);
             bubble.body.setVelocityY(bunny.body.velocity.y);
-
-            //console.log("up");
-
-            // this.bunnyX = bunny.x;
-            // this.bubbleX = bubble.x;
-
-            //console.log("bubble x: " + this.bubbleX);
-            //console.log("bunny x: " + this.bunnyX);
-
-            //min speed of 10
-            // if(bunny.body.velocity.y < 5)
-            //     this.speed = 10;
-            // else
-            // this.speed = 200;
-
-            //if bubble is to the right
-            // if(this.bubbleX >= this.bunnyX) {
-            //     //eject to the right
-            //     //console.log("ejecting right");
-
-            //     //if blocked to the right, actually eject to the left
-            //     if (bubble.body.blocked.right) {
-            //         this.speed = -this.speed;
-            //         //console.log("blocked right, ejecting left");
-            //     }
-            // } else {
-            //     //eject to the left
-            //     //console.log("ejecting left");
-
-            //     //if blocked to the left, actually eject to the right
-            //     if(bubble.body.blocked.left) {
-            //         //console.log("blocked left, ejecting right");
-            //     } else {
-            //         this.speed = -this.speed;
-            //     }
-            // }
-
-            // //ejection
-            // bubble.body.setVelocityX(this.speed);
+        } else {
+            bubble.body.setAllowGravity(true);
         }
     }
 

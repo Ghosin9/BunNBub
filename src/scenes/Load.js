@@ -10,8 +10,10 @@ class Load extends Phaser.Scene {
         this.load.atlas("player", "bunny.png", "bunny.json");
         //bubble
         this.load.atlas("bubble", "bubble.png", "bubble.json");
-
-        //level assets
+        //bubble pop
+        this.load.atlas("bubblepop", "bubble_pop.png", "bubble_pop.json");
+        //dialogue box
+        this.load.image("dialogue", "dialogue.png");
 
         //ui assets
         this.load.path = "assets/ui/";
