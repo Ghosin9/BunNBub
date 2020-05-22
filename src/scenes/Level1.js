@@ -1,6 +1,4 @@
-//animated tiles library used from Richard Davey's https://github.com/nkholski/phaser-animated-tiles
-
-class Level_1 extends Phaser.Scene {
+class Level1 extends Phaser.Scene {
     constructor() {
         super("level1");
     }
@@ -10,48 +8,58 @@ class Level_1 extends Phaser.Scene {
         this.load.scenePlugin('AnimatedTiles', AnimatedTiles, "animatedTiles");
 
         this.load.path = "./assets/level/";
-        //png of tilesheet
-        //1st parameter is key indicator
-        //2nd parameter is path to png
-        this.load.spritesheet("tilesheet1", "tilesheet.png", {
-            frameWidth: 16,
-            frameHeight: 16,
-        });
-
         //json tilemap created from Tiled
         //1st parameter is key indicator
         //2nd parameter is path to json
-        this.load.tilemapTiledJSON("tilemap1", "tutorial.json");
+        this.load.tilemapTiledJSON("tilemap2", "room_1.json");
     }
 
     create() {
         //create tilemap
         //load the json file as a tilemap
         //parameter is key indicator from the json
-        const map = this.add.tilemap("tilemap1");
+        const map = this.add.tilemap("tilemap2");
         //create tileset from tilemapping 
         //1st parameter is Tiled name for tilesheet
         //2nd parameter is tilesheet key indicator from the png above
-        const tileset = map.addTilesetImage("tutorial", "tilesheet1");
+        const tileset = map.addTilesetImage("tileset", "tilesheet1");
 
         //create dynamic layers
         //creating static layers must be inverse order of what tiled has to display layers correctly
         //parameter must be Tiled name for layer
-        const waterLayer = map.createDynamicLayer("Water", tileset, 0, 0);
         const backgroundLayer = map.createDynamicLayer("Background", tileset, 0, 0);
+        const wallLayer = map.createDynamicLayer("Wall", tileset, 0, 0);
+        const wallDetailLayer = map.createDynamicLayer("Wall_Detail", tileset, 0, 0);
         const groundLayer = map.createDynamicLayer("Ground", tileset, 0, 0);
-        const sceneryLayer = map.createDynamicLayer("Scenery", tileset, 0, 0);
+        const groundDetailLayer = map.createDynamicLayer("Ground_Detail", tileset, 0, 0);
+        const spikeLayer = map.createDynamicLayer("Spikes", tileset, 0, 0);
 
+        //init animations
         this.sys.animatedTiles.init(map);
 
         //create collisions for ground layer
         //property must be the same name as custom property in Tiled
         groundLayer.setCollisionByProperty({collides: true});
-        sceneryLayer.setCollisionByProperty({collides: true});
+        spikeLayer.setCollisionByProperty({spikes: true});
+
+        //npc
+        let npcList = map.filterObjects("Objects", obj => obj.name == "jelly");
+        this.jellyfish = this.add.group({runChildUpdate: true});
+
+        let counter = 1;
+        npcList.map((element) => {
+            let npc = new Dialogue(this, element.x, element.y, "scroll", counter, "tutorial");
+            this.jellyfish.add(npc);
+            counter++;
+        });
+
+        //door
+        const dSpawn = map.findObject("Objects", obj => obj.name == "doorEnd");
+        this.door = new Door(this, dSpawn.x, dSpawn.y, "level1");
 
         //create spawn point for player
         const pSpawn = map.findObject("Objects", obj => obj.name == "playerSpawn");
-        //create player
+        //create player 
         this.player = new Player(this, pSpawn.x, pSpawn.y, "level1");
 
         //bubble spawn
@@ -59,29 +67,30 @@ class Level_1 extends Phaser.Scene {
         //create bubble
         this.bubble = new Bubble(this, bSpawn.x, bSpawn.y, "level1");
 
-        //create jellyfish
-        this.jelly = new Jellyfish(this, pSpawn.x-40, pSpawn.y, "Insert dialogue text here According to all known laws of aviation, there is no way a bee should be able to fly.");
-
+        //allow for player update and bubble update
         this.gameSprites = this.add.group({
             runChildUpdate: true,
         });
         this.gameSprites.add(this.player);
         this.gameSprites.add(this.bubble);
-        this.gameSprites.add(this.jelly);
 
         //set up collision
         //ground collision
         this.physics.add.collider(this.player, groundLayer);
         this.physics.add.collider(this.bubble, groundLayer);
 
-        //spike collision
-        this.physics.add.collider(this.bubble, sceneryLayer, this.bubble.spikeCollision, null, this.bubble);
-
         //bun x bub 
         this.physics.add.overlap(this.player, this.bubble, this.player.bubbleCollision, null, this.player);
 
-        //dialogue box
-        this.physics.add.overlap(this.player, this.jelly, this.jelly.talk, null, this.jelly);
+        //spike collision
+        this.physics.add.collider(this.bubble, spikeLayer, this.bubble.spikeCollision, null, this.bubble);
+
+        //npc
+        this.physics.add.overlap(this.player, this.jellyfish, this.talk, null, this);
+        //scroll
+
+        //door
+        this.physics.add.overlap(this.player, this.door, this.door.doorCollision, null, this.door);
 
         //world bounds
         this.physics.world.bounds.setTo(0, 0, map.widthInPixels, map.heightInPixels);
@@ -90,14 +99,6 @@ class Level_1 extends Phaser.Scene {
             fontSize: "20px",
             align: "center"
         };
-
-        //temp instruction text
-        this.hold = this.add.text(0, 0, "PRESS X TO GRAB", textConfig).setOrigin(0).setScrollFactor(0);
-        this.arrow = this.add.text(0, 15, "ARROW KEYS TO MOVE", textConfig).setOrigin(0).setScrollFactor(0);
-        this.r = this.add.text(0, 30, "R TO RESTART", textConfig).setOrigin(0).setScrollFactor(0);
-        this.e = this.add.text(0, 45, "Z TO VIEW MAP", textConfig).setOrigin(0).setScrollFactor(0);
-        this.control = this.add.text(0, 60, "CONTROL MAP WITH ARROW KEYS", textConfig).setOrigin(0).setScrollFactor(0);
-        this.spikes = this.add.text(0, 75, "SPIKES ONLY HURT BUBBLE", textConfig).setOrigin(0).setScrollFactor(0);
 
         //set up camera to follow player
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
@@ -110,7 +111,8 @@ class Level_1 extends Phaser.Scene {
         //this.sys.animatedTiles.updateAnimatedTiles();
     }
 
-    tileCollision(sprite, tile) {
-        
+    talk(player, jelly) {
+        jelly.dialogueBox.alpha = 1;
+        jelly.text.alpha = 1;
     }
 }

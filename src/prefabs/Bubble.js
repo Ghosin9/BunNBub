@@ -57,14 +57,15 @@ class Bubble extends Phaser.Physics.Arcade.Sprite {
             this.bubbleSound = true;
 
         //bubble landing sound
-        if(this.body.blocked.down && this.bubbleSound) {
+        if(this.body.blocked.down && this.bubbleSound && this.popSound) {
             this.scene.sound.play("bubbleLand");
             this.bubbleSound = false;
         }
 
         if(!this.anims.isPlaying) {
             //restart level
-            //this.scene.scene.start(this.currentLevel);
+            this.scene.scene.start(this.currentLevel);
+            //this.destroy();
         }
     }
 

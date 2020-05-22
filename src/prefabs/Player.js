@@ -124,11 +124,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             if((Phaser.Input.Keyboard.JustDown(this.cursors.up) || Phaser.Input.Keyboard.JustDown(this.cursors.space)) 
                 && this.body.blocked.down){
                     if(this.holding) {
-                        this.setVelocityY(-550);
-                        this.setAccelerationY(400);
+                        this.setVelocityY(-600);
+                        this.setAccelerationY(300);
                     } else {
                         this.setVelocityY(-700);
-                        this.setAccelerationY(500);
+                        this.setAccelerationY(300);
                     }
             }
 
@@ -154,6 +154,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             //camera mode
             if (Phaser.Input.Keyboard.JustDown(this.zoom)) {
                 this.cameraMode();
+            }
+
+            //if touching nothing
+            if(this.body.touching.none) {
+                this.holding = false;
             }
         } else {
             this.camControl.update(delta);
@@ -218,7 +223,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         }
 
         this.scene.cameras.main.stopFollow();
-        this.scene.cameras.main.setZoom(0.5);
+        this.scene.cameras.main.setZoom(0.75);
 
         this.camControl = new Phaser.Cameras.Controls.FixedKeyControl(controlConfig);
     }

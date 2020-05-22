@@ -9,7 +9,7 @@ class Menu extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
 
         this.cameras.main.once("camerafadeoutcomplete", () => {
-            this.scene.start("level1");
+            this.scene.start("tutorial");
             this.sound.play("music", {volume: 0.25, loop: true});
         });
     }
