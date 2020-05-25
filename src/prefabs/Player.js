@@ -181,8 +181,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             }
         }
 
-        if(this.holding && !this.camera) {
+        if(this.holding) {
             bubble.body.setAllowGravity(false);
+            bubble.setAccelerationY(0);
             
             bubble.y = bunny.y;
 
@@ -205,7 +206,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
     }
 
     cameraMode() {
-
         this.camera = true;
 
         this.body.setAccelerationX(0);

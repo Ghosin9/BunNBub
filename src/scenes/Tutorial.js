@@ -13,7 +13,7 @@ class Tutorial extends Phaser.Scene {
         //png of tilesheet
         //1st parameter is key indicator
         //2nd parameter is path to png
-        this.load.spritesheet("tilesheet1", "tilesheet.png", {
+        this.load.spritesheet("tilesheet", "tilesheet.png", {
             frameWidth: 16,
             frameHeight: 16,
         });
@@ -28,21 +28,21 @@ class Tutorial extends Phaser.Scene {
         //create tilemap
         //load the json file as a tilemap
         //parameter is key indicator from the json
-        const map = this.add.tilemap("tilemap1");
+        let map = this.add.tilemap("tilemap1");
         //create tileset from tilemapping 
         //1st parameter is Tiled name for tilesheet
         //2nd parameter is tilesheet key indicator from the png above
-        const tileset = map.addTilesetImage("tileset", "tilesheet1");
+        let tileset = map.addTilesetImage("tileset", "tilesheet");
 
         //create dynamic layers
         //creating static layers must be inverse order of what tiled has to display layers correctly
         //parameter must be Tiled name for layer
-        const backgroundLayer = map.createDynamicLayer("Background", tileset, 0, 0);
-        const wallLayer = map.createDynamicLayer("Wall", tileset, 0, 0);
-        const wallDetailLayer = map.createDynamicLayer("Wall_Detail", tileset, 0, 0);
-        const groundLayer = map.createDynamicLayer("Ground", tileset, 0, 0);
-        const groundDetailLayer = map.createDynamicLayer("Ground_Detail", tileset, 0, 0);
-        const spikeLayer = map.createDynamicLayer("Spikes", tileset, 0, 0);
+        let backgroundLayer = map.createDynamicLayer("Background", tileset, 0, 0);
+        let wallLayer = map.createDynamicLayer("Wall", tileset, 0, 0);
+        let wallDetailLayer = map.createDynamicLayer("Wall_Detail", tileset, 0, 0);
+        let groundLayer = map.createDynamicLayer("Ground", tileset, 0, 0);
+        let groundDetailLayer = map.createDynamicLayer("Ground_Detail", tileset, 0, 0);
+        let spikeLayer = map.createDynamicLayer("Spikes", tileset, 0, 0);
 
         //init animations
         this.sys.animatedTiles.init(map);
@@ -64,15 +64,15 @@ class Tutorial extends Phaser.Scene {
         });
 
         //door
-        const dSpawn = map.findObject("Objects", obj => obj.name == "doorEnd");
+        let dSpawn = map.findObject("Objects", obj => obj.name == "doorEnd");
         this.door = new Door(this, dSpawn.x, dSpawn.y, "tutorial", "level1");
 
         //create spawn point for player
-        const pSpawn = map.findObject("Objects", obj => obj.name == "playerSpawn");
+        let pSpawn = map.findObject("Objects", obj => obj.name == "playerSpawn");
         this.player = new Player(this, pSpawn.x, pSpawn.y, "tutorial");
 
         //bubble spawn
-        const bSpawn = map.findObject("Objects", obj => obj.name == "bubbleSpawn");
+        let bSpawn = map.findObject("Objects", obj => obj.name == "bubbleSpawn");
         this.bubble = new Bubble(this, bSpawn.x, bSpawn.y, "tutorial");
 
         //allow for player update and bubble update
@@ -91,7 +91,7 @@ class Tutorial extends Phaser.Scene {
         this.physics.add.overlap(this.player, this.bubble, this.player.bubbleCollision, null, this.player);
 
         //spike collision
-        this.physics.add.collider(this.bubble, spikeLayer, this.bubble.spikeCollision, null, this.bubble);
+        this.physics.add.overlap(this.bubble, spikeLayer, this.bubble.spikeCollision, null, this.bubble);
 
         //npc
         this.physics.add.overlap(this.player, this.jellyfish, this.talk, null, this);

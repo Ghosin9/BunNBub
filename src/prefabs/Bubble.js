@@ -17,7 +17,7 @@ class Bubble extends Phaser.Physics.Arcade.Sprite {
         //decceleration
         this.setDragX(100);
         //max velocity
-        this.setMaxVelocity(200, 150);
+        this.setMaxVelocity(200, 1000);
         //bounce
         this.setBounce(0.5, 0.90);
 
@@ -53,8 +53,14 @@ class Bubble extends Phaser.Physics.Arcade.Sprite {
         super.update();
 
         //replay bubble landing sound
-        if(this.body.velocity.y >= 0)
+        if(this.body.velocity.y >= 0) {
             this.bubbleSound = true;
+
+            //max velocity
+            if(this.body.velocity.y >= 150) {
+                this.setVelocityY(150);
+            }
+        }
 
         //bubble landing sound
         if(this.body.blocked.down && this.bubbleSound && this.popSound) {

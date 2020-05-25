@@ -20,11 +20,23 @@ class Load extends Phaser.Scene {
         this.load.atlas("door", "door.png", "door.json");
         //scroll
         this.load.image("scroll", "scroll.png");
+        //geyser
+        this.load.atlas("geyser_a", "geyser_a.png", "geyser_a.json");
+        this.load.atlas("geyser_b", "geyser_b.png", "geyser_b.json");
+        //turtle
+        this.load.atlas("turtle", "turtle.png", "turtle.json");
 
         //ui assets
         this.load.path = "assets/ui/";
         //main menu
-        this.load.image("mainMenu", "menu.jpg");
+        this.load.image("mainMenu", "menu.png");
+        //pause
+        this.load.image("pause", "pause.png");
+        //cutscene
+        this.load.image("cutscene1", "boat.png");
+        this.load.image("cutscene2", "sleep.png");
+        this.load.image("cutscene3", "high1.png");
+        this.load.image("cutscene4", "high2.png");
 
         //sound assets
         this.load.path = "assets/sound/";

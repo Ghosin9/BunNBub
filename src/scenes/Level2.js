@@ -1,8 +1,8 @@
 //animated tiles library used from Richard Davey's https://github.com/nkholski/phaser-animated-tiles
 
-class Level1 extends Phaser.Scene {
+class Level2 extends Phaser.Scene {
     constructor() {
-        super("level1");
+        super("level2");
     }
 
     preload() {
@@ -13,14 +13,14 @@ class Level1 extends Phaser.Scene {
         //json tilemap created from Tiled
         //1st parameter is key indicator
         //2nd parameter is path to json
-        this.load.tilemapTiledJSON("lv1", "room_1.json");
+        this.load.tilemapTiledJSON("lv2", "room_2.json");
     }
 
     create() {
         //create tilemap
         //load the json file as a tilemap
         //parameter is key indicator from the json
-        let map = this.add.tilemap("lv1");
+        let map = this.add.tilemap("lv2");
         //create tileset from tilemapping 
         //1st parameter is Tiled name for tilesheet
         //2nd parameter is tilesheet key indicator from the png above
@@ -57,17 +57,31 @@ class Level1 extends Phaser.Scene {
 
         //door
         let dSpawn = map.findObject("Objects", obj => obj.name == "doorEnd");
-        this.door = new Door(this, dSpawn.x, dSpawn.y, "level1", "level2");
+        this.door = new Door(this, dSpawn.x, dSpawn.y, "level2", "level3");
+
+        //geyser
+        let geyserAList = map.filterObjects("Objects", obj => obj.name == "geyserASpawn");
+        this.geysers = this.add.group({runChildUpdate: true});
+        geyserAList.map((element) => {
+            let geyser = new Geyser(this, element.x, element.y, "a");
+            this.geysers.add(geyser);
+        });
+
+        let geyserBList = map.filterObjects("Objects", obj => obj.name == "geyserBSpawn");
+        geyserBList.map((element) => {
+            let geyser = new Geyser(this, element.x, element.y, "b");
+            this.geysers.add(geyser);
+        });
 
         //create spawn point for player
         let pSpawn = map.findObject("Objects", obj => obj.name == "playerSpawn");
         //create player 
-        this.player = new Player(this, pSpawn.x, pSpawn.y, "level1");
+        this.player = new Player(this, pSpawn.x, pSpawn.y, "level2");
 
         //bubble spawn
         let bSpawn = map.findObject("Objects", obj => obj.name == "bubbleSpawn");
         //create bubble
-        this.bubble = new Bubble(this, bSpawn.x, bSpawn.y, "level1");
+        this.bubble = new Bubble(this, bSpawn.x, bSpawn.y, "level2");
 
         //allow for player update and bubble update
         this.gameSprites = this.add.group({
@@ -94,6 +108,9 @@ class Level1 extends Phaser.Scene {
         //door
         this.physics.add.overlap(this.player, this.door, this.door.doorCollision, null, this.door);
 
+        //geyser
+        this.physics.add.overlap(this.bubble, this.geysers, this.geyserPush, null, this);
+
         //world bounds
         this.physics.world.bounds.setTo(0, 0, map.widthInPixels, map.heightInPixels);
 
@@ -116,5 +133,11 @@ class Level1 extends Phaser.Scene {
     talk(player, jelly) {
         jelly.dialogueBox.alpha = 1;
         jelly.text.alpha = 1;
+    }
+
+    geyserPush(bubble, geyser) {
+        if(!this.player.holding) {
+            bubble.setVelocityY(-600);
+        }
     }
 }

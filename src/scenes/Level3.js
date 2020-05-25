@@ -1,8 +1,8 @@
 //animated tiles library used from Richard Davey's https://github.com/nkholski/phaser-animated-tiles
 
-class Level1 extends Phaser.Scene {
+class Level3 extends Phaser.Scene {
     constructor() {
-        super("level1");
+        super("level3");
     }
 
     preload() {
@@ -10,17 +10,26 @@ class Level1 extends Phaser.Scene {
         this.load.scenePlugin('AnimatedTiles', AnimatedTiles, "animatedTiles");
 
         this.load.path = "./assets/level/";
+        //png of tilesheet
+        //1st parameter is key indicator
+        //2nd parameter is path to png
+        this.load.spritesheet("tilesheet", "tilesheet.png", {
+            frameWidth: 16,
+            frameHeight: 16,
+        });
+
+        this.load.path = "./assets/level/";
         //json tilemap created from Tiled
         //1st parameter is key indicator
         //2nd parameter is path to json
-        this.load.tilemapTiledJSON("lv1", "room_1.json");
+        this.load.tilemapTiledJSON("lv3", "room_3.json");
     }
 
     create() {
         //create tilemap
         //load the json file as a tilemap
         //parameter is key indicator from the json
-        let map = this.add.tilemap("lv1");
+        let map = this.add.tilemap("lv3");
         //create tileset from tilemapping 
         //1st parameter is Tiled name for tilesheet
         //2nd parameter is tilesheet key indicator from the png above
@@ -57,17 +66,19 @@ class Level1 extends Phaser.Scene {
 
         //door
         let dSpawn = map.findObject("Objects", obj => obj.name == "doorEnd");
-        this.door = new Door(this, dSpawn.x, dSpawn.y, "level1", "level2");
+        this.door = new Door(this, dSpawn.x, dSpawn.y, "level3", "level4");
+
+        //turtle
 
         //create spawn point for player
         let pSpawn = map.findObject("Objects", obj => obj.name == "playerSpawn");
         //create player 
-        this.player = new Player(this, pSpawn.x, pSpawn.y, "level1");
+        this.player = new Player(this, pSpawn.x, pSpawn.y, "level3");
 
         //bubble spawn
         let bSpawn = map.findObject("Objects", obj => obj.name == "bubbleSpawn");
         //create bubble
-        this.bubble = new Bubble(this, bSpawn.x, bSpawn.y, "level1");
+        this.bubble = new Bubble(this, bSpawn.x, bSpawn.y, "level3");
 
         //allow for player update and bubble update
         this.gameSprites = this.add.group({
