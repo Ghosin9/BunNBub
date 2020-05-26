@@ -69,6 +69,13 @@ class Level3 extends Phaser.Scene {
         this.door = new Door(this, dSpawn.x, dSpawn.y, "level3", "level4");
 
         //turtle
+        let turtleList = map.filterObjects("Objects", obj => obj.name == "turtleSpawn");
+        this.turtles = this.add.group({runChildUpdate: true});
+
+        turtleList.map((element) => {
+            let turtle = new Turtle(this, element.x, element.y, element.type);
+            this.turtles.add(turtle);
+        });
 
         //create spawn point for player
         let pSpawn = map.findObject("Objects", obj => obj.name == "playerSpawn");
@@ -96,11 +103,15 @@ class Level3 extends Phaser.Scene {
         this.physics.add.overlap(this.player, this.bubble, this.player.bubbleCollision, null, this.player);
 
         //spike collision
-        this.physics.add.overlap(this.bubble, spikeLayer, this.bubble.spikeCollision, null, this.bubble);
+        this.physics.add.collider(this.bubble, spikeLayer, this.bubble.spikeCollision, null, this.bubble);
 
         //npc
         this.physics.add.overlap(this.player, this.jellyfish, this.talk, null, this);
         //scroll
+
+        //turtle
+        this.physics.add.collider(this.player, this.turtles, this.playerTurtle, null, this);
+        this.physics.add.collider(this.bubble, this.turtles, this.bubbleTurtle, null, this);
 
         //door
         this.physics.add.overlap(this.player, this.door, this.door.doorCollision, null, this.door);
@@ -127,5 +138,24 @@ class Level3 extends Phaser.Scene {
     talk(player, jelly) {
         jelly.dialogueBox.alpha = 1;
         jelly.text.alpha = 1;
+    }
+
+    playerTurtle(player, turtle){
+        // player.setAccelerationY(0);
+        // console.log("V");
+        // console.log(player.body.velocity);
+        // console.log("A");
+        // console.log(player.body.acceleration);
+
+        player.canJump = true;
+
+        if(player.fallingSound){
+            this.sound.play("playerLand", {volume: 0.25});
+            player.fallingSound = false;
+        }
+    }
+
+    bubbleTurtle(bubble, turtle) {
+
     }
 }

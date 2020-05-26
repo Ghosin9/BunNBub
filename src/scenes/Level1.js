@@ -85,7 +85,7 @@ class Level1 extends Phaser.Scene {
         this.physics.add.overlap(this.player, this.bubble, this.player.bubbleCollision, null, this.player);
 
         //spike collision
-        this.physics.add.overlap(this.bubble, spikeLayer, this.bubble.spikeCollision, null, this.bubble);
+        this.physics.add.collider(this.bubble, spikeLayer, this.bubble.spikeCollision, null, this.bubble);
 
         //npc
         this.physics.add.overlap(this.player, this.jellyfish, this.talk, null, this);

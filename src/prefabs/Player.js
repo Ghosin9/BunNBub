@@ -9,6 +9,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         this.fallingSound = true;
         this.holding = false;
         this.currentLevel = currentLevel;
+        this.canJump = true;
 
         //animation
         //idle
@@ -120,9 +121,26 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                     this.anims.play("idle", true);
             }
 
+            //play jumping or falling animation
+            if(this.body.velocity.y < 0) {
+                this.anims.play("jump", true);
+                this.setOffset(0, 0);
+            } else if (this.body.velocity.y > 0) {
+                this.anims.play("fall", true);
+                this.fallingSound = true;
+            }
+
+            //landing sound
+            if(this.body.blocked.down && this.fallingSound) {
+                this.scene.sound.play("playerLand", {volume: 0.25});
+                this.fallingSound = false;
+                this.canJump = true;
+            }
+
             //jumping
             if((Phaser.Input.Keyboard.JustDown(this.cursors.up) || Phaser.Input.Keyboard.JustDown(this.cursors.space)) 
-                && this.body.blocked.down){
+                && this.canJump){
+                    this.canJump = false;
                     if(this.holding) {
                         this.setVelocityY(-600);
                         this.setAccelerationY(300);
@@ -130,20 +148,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                         this.setVelocityY(-700);
                         this.setAccelerationY(300);
                     }
-            }
-
-            //landing sound
-            if(this.body.blocked.down && this.fallingSound) {
-                this.scene.sound.play("playerLand", {volume: 0.25});
-                this.fallingSound = false;
-            }
-
-            //play jumping or falling animation
-            if(this.body.velocity.y < 0) {
-                this.anims.play("jump", true);
-            } else if (this.body.velocity.y > 0) {
-                this.anims.play("fall", true);
-                this.fallingSound = true;
             }
 
             //restart

@@ -4275,7 +4275,7 @@
 </data>
  </layer>
  <objectgroup id="8" name="Objects">
-  <object id="9" name="playerSpawn" x="1456" y="1552">
+  <object id="9" name="playerSpawn" x="1456" y="1536">
    <point/>
   </object>
   <object id="12" name="bubbleSpawn" x="1328" y="1552">

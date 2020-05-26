@@ -57,7 +57,7 @@ class Bubble extends Phaser.Physics.Arcade.Sprite {
             this.bubbleSound = true;
 
             //max velocity
-            if(this.body.velocity.y >= 150) {
+            if(this.body.velocity.y > 150) {
                 this.setVelocityY(150);
             }
         }
@@ -72,6 +72,10 @@ class Bubble extends Phaser.Physics.Arcade.Sprite {
             //restart level
             this.scene.scene.start(this.currentLevel);
             //this.destroy();
+        }
+
+        if(!this.scene.player.holding) {
+            this.body.setAllowGravity(true);
         }
     }
 
