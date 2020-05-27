@@ -121,6 +121,19 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                     this.anims.play("idle", true);
             }
 
+            //jumping
+            if((Phaser.Input.Keyboard.JustDown(this.cursors.up) || Phaser.Input.Keyboard.JustDown(this.cursors.space)) 
+                && this.canJump){
+                    this.canJump = false;
+                    if(this.holding) {
+                        this.setVelocityY(-600);
+                        this.setAccelerationY(300);
+                    } else {
+                        this.setVelocityY(-700);
+                        this.setAccelerationY(300);
+                    }
+            }
+
             //play jumping or falling animation
             if(this.body.velocity.y < 0) {
                 this.anims.play("jump", true);
@@ -135,19 +148,6 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                 this.scene.sound.play("playerLand", {volume: 0.25});
                 this.fallingSound = false;
                 this.canJump = true;
-            }
-
-            //jumping
-            if((Phaser.Input.Keyboard.JustDown(this.cursors.up) || Phaser.Input.Keyboard.JustDown(this.cursors.space)) 
-                && this.canJump){
-                    this.canJump = false;
-                    if(this.holding) {
-                        this.setVelocityY(-600);
-                        this.setAccelerationY(300);
-                    } else {
-                        this.setVelocityY(-700);
-                        this.setAccelerationY(300);
-                    }
             }
 
             //restart

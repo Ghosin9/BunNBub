@@ -1,8 +1,8 @@
 //animated tiles library used from Richard Davey's https://github.com/nkholski/phaser-animated-tiles
 
-class Level2 extends Phaser.Scene {
+class Level5 extends Phaser.Scene {
     constructor() {
-        super("level2");
+        super("level5");
     }
 
     preload() {
@@ -13,7 +13,7 @@ class Level2 extends Phaser.Scene {
         //png of tilesheet
         //1st parameter is key indicator
         //2nd parameter is path to png
-        this.load.spritesheet("tilesheet", "tilesheet.png", {
+        this.load.spritesheet("tilesheet2", "tilesheet_2.png", {
             frameWidth: 16,
             frameHeight: 16,
         });
@@ -22,18 +22,18 @@ class Level2 extends Phaser.Scene {
         //json tilemap created from Tiled
         //1st parameter is key indicator
         //2nd parameter is path to json
-        this.load.tilemapTiledJSON("lv2", "room_2.json");
+        this.load.tilemapTiledJSON("lv5", "room_5.json");
     }
 
     create() {
         //create tilemap
         //load the json file as a tilemap
         //parameter is key indicator from the json
-        let map = this.add.tilemap("lv2");
+        let map = this.add.tilemap("lv5");
         //create tileset from tilemapping 
         //1st parameter is Tiled name for tilesheet
         //2nd parameter is tilesheet key indicator from the png above
-        let tileset = map.addTilesetImage("tileset", "tilesheet");
+        let tileset = map.addTilesetImage("tileset_2", "tilesheet2");
 
         //create dynamic layers
         //creating static layers must be inverse order of what tiled has to display layers correctly
@@ -43,7 +43,6 @@ class Level2 extends Phaser.Scene {
         let wallDetailLayer = map.createDynamicLayer("Wall_Detail", tileset, 0, 0);
         let groundLayer = map.createDynamicLayer("Ground", tileset, 0, 0);
         let groundDetailLayer = map.createDynamicLayer("Ground_Detail", tileset, 0, 0);
-        let spikeLayer = map.createDynamicLayer("Spikes", tileset, 0, 0);
 
         //init animations
         this.sys.animatedTiles.init(map);
@@ -51,52 +50,18 @@ class Level2 extends Phaser.Scene {
         //create collisions for ground layer
         //property must be the same name as custom property in Tiled
         groundLayer.setCollisionByProperty({collides: true});
-        spikeLayer.setCollisionByProperty({collides: true});
 
         //npc
-        let npcList = map.filterObjects("Objects", obj => obj.name == "jelly");
-        this.npcs = this.add.group({runChildUpdate: true});
-
-        npcList.map((element) => {
-            let npc = new Dialogue(this, element.x, element.y, "jelly", element.type, "level1");
-            this.npcs.add(npc);
-        });
-
-        //scroll
-        let scrollList = map.filterObjects("Objects", obj => obj.name == "scroll");
-
-        scrollList.map((element) => {
-            let npc = new Dialogue(this, element.x, element.y, "scroll", element.type, "level1");
-            this.npcs.add(npc);
-        });
-
-        //door
-        let dSpawn = map.findObject("Objects", obj => obj.name == "doorEnd");
-        this.door = new Door(this, dSpawn.x, dSpawn.y, "level2", "level3");
-
-        //geyser
-        let geyserAList = map.filterObjects("Objects", obj => obj.name == "geyserASpawn");
-        this.geysers = this.add.group({runChildUpdate: true});
-        geyserAList.map((element) => {
-            let geyser = new Geyser(this, element.x, element.y, "a");
-            this.geysers.add(geyser);
-        });
-
-        let geyserBList = map.filterObjects("Objects", obj => obj.name == "geyserBSpawn");
-        geyserBList.map((element) => {
-            let geyser = new Geyser(this, element.x, element.y, "b");
-            this.geysers.add(geyser);
-        });
 
         //create spawn point for player
         let pSpawn = map.findObject("Objects", obj => obj.name == "playerSpawn");
         //create player 
-        this.player = new Player(this, pSpawn.x, pSpawn.y, "level2");
+        this.player = new Player(this, pSpawn.x, pSpawn.y, "level5");
 
         //bubble spawn
         let bSpawn = map.findObject("Objects", obj => obj.name == "bubbleSpawn");
         //create bubble
-        this.bubble = new Bubble(this, bSpawn.x, bSpawn.y, "level2");
+        this.bubble = new Bubble(this, bSpawn.x, bSpawn.y, "level5");
 
         //allow for player update and bubble update
         this.gameSprites = this.add.group({
@@ -113,18 +78,7 @@ class Level2 extends Phaser.Scene {
         //bun x bub 
         this.physics.add.overlap(this.player, this.bubble, this.player.bubbleCollision, null, this.player);
 
-        //spike collision
-        this.physics.add.collider(this.bubble, spikeLayer, this.bubble.spikeCollision, null, this.bubble);
-
         //npc
-        this.physics.add.overlap(this.player, this.npcs, this.talk, null, this);
-        //scroll
-
-        //door
-        this.physics.add.overlap(this.player, this.door, this.door.doorCollision, null, this.door);
-
-        //geyser
-        this.physics.add.overlap(this.bubble, this.geysers, this.geyserPush, null, this);
 
         //world bounds
         this.physics.world.bounds.setTo(0, 0, map.widthInPixels, map.heightInPixels);
@@ -148,11 +102,5 @@ class Level2 extends Phaser.Scene {
     talk(player, jelly) {
         jelly.dialogueBox.alpha = 1;
         jelly.text.alpha = 1;
-    }
-
-    geyserPush(bubble, geyser) {
-        if(!this.player.holding) {
-            bubble.setVelocityY(-600);
-        }
     }
 }

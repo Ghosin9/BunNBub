@@ -10,7 +10,7 @@ class Menu extends Phaser.Scene {
 
         this.cameras.main.once("camerafadeoutcomplete", () => {
             this.scene.start("tutorial");
-            this.sound.play("music", {volume: 0.25, loop: true});
+            this.sound.play("music", {volume: 0.2, loop: true});
         });
     }
 

@@ -56,11 +56,9 @@ class Tutorial extends Phaser.Scene {
         let npcList = map.filterObjects("Objects", obj => obj.name == "jelly");
         this.jellyfish = this.add.group({runChildUpdate: true});
 
-        let counter = 1;
         npcList.map((element) => {
-            let npc = new Dialogue(this, element.x, element.y, "jellyfish", counter, "tutorial");
+            let npc = new Dialogue(this, element.x, element.y, "jellyfish", element.type, "tutorial");
             this.jellyfish.add(npc);
-            counter++;
         });
 
         //door

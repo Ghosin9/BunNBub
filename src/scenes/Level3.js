@@ -55,15 +55,20 @@ class Level3 extends Phaser.Scene {
 
         //npc
         let npcList = map.filterObjects("Objects", obj => obj.name == "jelly");
-        this.jellyfish = this.add.group({runChildUpdate: true});
+        this.npcs = this.add.group({runChildUpdate: true});
 
-        let counter = 1;
         npcList.map((element) => {
-            let npc = new Dialogue(this, element.x, element.y, "scroll", counter, "tutorial");
-            this.jellyfish.add(npc);
-            counter++;
+            let npc = new Dialogue(this, element.x, element.y, "jelly", element.type, "level1");
+            this.npcs.add(npc);
         });
 
+        //scroll
+        let scrollList = map.filterObjects("Objects", obj => obj.name == "scroll");
+
+        scrollList.map((element) => {
+            let npc = new Dialogue(this, element.x, element.y, "scroll", element.type, "level1");
+            this.npcs.add(npc);
+        });
         //door
         let dSpawn = map.findObject("Objects", obj => obj.name == "doorEnd");
         this.door = new Door(this, dSpawn.x, dSpawn.y, "level3", "level4");
@@ -106,7 +111,7 @@ class Level3 extends Phaser.Scene {
         this.physics.add.collider(this.bubble, spikeLayer, this.bubble.spikeCollision, null, this.bubble);
 
         //npc
-        this.physics.add.overlap(this.player, this.jellyfish, this.talk, null, this);
+        this.physics.add.overlap(this.player, this.npcs, this.talk, null, this);
         //scroll
 
         //turtle

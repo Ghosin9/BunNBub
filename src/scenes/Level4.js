@@ -55,18 +55,24 @@ class Level4 extends Phaser.Scene {
 
         //npc
         let npcList = map.filterObjects("Objects", obj => obj.name == "jelly");
-        this.jellyfish = this.add.group({runChildUpdate: true});
+        this.npcs = this.add.group({runChildUpdate: true});
 
-        let counter = 1;
         npcList.map((element) => {
-            let npc = new Dialogue(this, element.x, element.y, "scroll", counter, "tutorial");
-            this.jellyfish.add(npc);
-            counter++;
+            let npc = new Dialogue(this, element.x, element.y, "jelly", element.type, "level1");
+            this.npcs.add(npc);
+        });
+
+        //scroll
+        let scrollList = map.filterObjects("Objects", obj => obj.name == "scroll");
+
+        scrollList.map((element) => {
+            let npc = new Dialogue(this, element.x, element.y, "scroll", element.type, "level1");
+            this.npcs.add(npc);
         });
 
         //door
         let dSpawn = map.findObject("Objects", obj => obj.name == "doorEnd");
-        this.door = new Door(this, dSpawn.x, dSpawn.y, "level3", "level4");
+        this.door = new Door(this, dSpawn.x, dSpawn.y, "level4", "level5");
 
         //turtle
         let turtleList = map.filterObjects("Objects", obj => obj.name == "turtleSpawn");
@@ -75,6 +81,20 @@ class Level4 extends Phaser.Scene {
         turtleList.map((element) => {
             let turtle = new Turtle(this, element.x, element.y, element.type);
             this.turtles.add(turtle);
+        });
+
+        //geyser
+        let geyserAList = map.filterObjects("Objects", obj => obj.name == "geyserASpawn");
+        this.geysers = this.add.group({runChildUpdate: true});
+        geyserAList.map((element) => {
+            let geyser = new Geyser(this, element.x, element.y, "a");
+            this.geysers.add(geyser);
+        });
+
+        let geyserBList = map.filterObjects("Objects", obj => obj.name == "geyserBSpawn");
+        geyserBList.map((element) => {
+            let geyser = new Geyser(this, element.x, element.y, "b");
+            this.geysers.add(geyser);
         });
 
         //create spawn point for player
@@ -106,22 +126,8 @@ class Level4 extends Phaser.Scene {
         this.physics.add.collider(this.bubble, spikeLayer, this.bubble.spikeCollision, null, this.bubble);
 
         //npc
-        this.physics.add.overlap(this.player, this.jellyfish, this.talk, null, this);
+        this.physics.add.overlap(this.player, this.npcs, this.talk, null, this);
         //scroll
-
-        //geyser
-        let geyserAList = map.filterObjects("Objects", obj => obj.name == "geyserASpawn");
-        this.geysers = this.add.group({runChildUpdate: true});
-        geyserAList.map((element) => {
-            let geyser = new Geyser(this, element.x, element.y, "a");
-            this.geysers.add(geyser);
-        });
-
-        let geyserBList = map.filterObjects("Objects", obj => obj.name == "geyserBSpawn");
-        geyserBList.map((element) => {
-            let geyser = new Geyser(this, element.x, element.y, "b");
-            this.geysers.add(geyser);
-        });
 
         //turtle
         this.physics.add.collider(this.player, this.turtles, this.turtleCollision, null, this);
