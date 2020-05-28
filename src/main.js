@@ -2,7 +2,9 @@ let config = {
     type: Phaser.CANVAS,
     width: 640,
     height: 360,
-    pixelArt: true,
+    render: {
+        pixelArt: true,
+    },
     zoom: 2,
 
     scale: {

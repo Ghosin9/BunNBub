@@ -146,11 +146,6 @@ class Level3 extends Phaser.Scene {
     }
 
     playerTurtle(player, turtle){
-        // player.setAccelerationY(0);
-        // console.log("V");
-        // console.log(player.body.velocity);
-        // console.log("A");
-        // console.log(player.body.acceleration);
 
         player.canJump = true;
 
@@ -158,9 +153,21 @@ class Level3 extends Phaser.Scene {
             this.sound.play("playerLand", {volume: 0.25});
             player.fallingSound = false;
         }
+
+        //move player with platform
+        if(!turtle.flipped) {
+            player.x -= 0.86;
+        } else if (turtle.flipped){
+            player.x += 0.86;
+        }
     }
 
     bubbleTurtle(bubble, turtle) {
-
+        //move bubble with platform
+        if(!turtle.flipped) {
+            bubble.x -= 0.86;
+        } else if (turtle.flipped){
+            bubble.x += 0.86;
+        }
     }
 }

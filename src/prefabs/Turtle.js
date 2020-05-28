@@ -13,6 +13,8 @@ class Turtle extends Phaser.Physics.Arcade.Sprite {
         this.counter = 0;
         this.flipped = false;
 
+        this.moveObject = false;
+
         this.scene.anims.create({
             key: "tIdle",
                 frames: this.scene.anims.generateFrameNames("turtle", {
@@ -26,7 +28,7 @@ class Turtle extends Phaser.Physics.Arcade.Sprite {
 
         this.anims.play("tIdle");
 
-        //move at a consistent speed, but 
+        //move at a consistent spee
         this.scene.time.addEvent({
             delay: 5,
             callback: this.move,
@@ -48,6 +50,7 @@ class Turtle extends Phaser.Physics.Arcade.Sprite {
     }
 
     update() {
+        
     }
 
     move() {

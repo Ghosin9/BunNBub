@@ -11,7 +11,7 @@ class Cutscene extends Phaser.Scene {
         this.cutscene4 = this.add.image(0, 0, "cutscene4").setOrigin(0).setAlpha(0);
 
         this.cursors = this.input.keyboard.createCursorKeys();
-        this.num = 1;
+        this.num = 0;
 
         this.time.addEvent({
             delay: 4000,
@@ -26,10 +26,6 @@ class Cutscene extends Phaser.Scene {
     }
 
     update() {
-        
-    }
-
-    changeCutscene() {
         if(this.num == 1) {
             this.cutscene2.setAlpha(1);
         } else if (this.num == 2) {
@@ -38,8 +34,16 @@ class Cutscene extends Phaser.Scene {
             this.cutscene4.setAlpha(1);
         } else if (this.num == 4) {
             this.cameras.main.fadeOut(2000);
+        } else if (this.num >= 5) {
+            this.scene.start("menu");
         }
 
+        if(Phaser.Input.Keyboard.JustDown(this.cursors.right)) {
+           this.changeCutscene();
+        }
+    }
+
+    changeCutscene() {
         ++this.num;
     }
 }

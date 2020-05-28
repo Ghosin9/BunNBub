@@ -130,8 +130,8 @@ class Level4 extends Phaser.Scene {
         //scroll
 
         //turtle
-        this.physics.add.collider(this.player, this.turtles, this.turtleCollision, null, this);
-        this.physics.add.collider(this.bubble, this.turtles);
+        this.physics.add.collider(this.player, this.turtles, this.playerTurtle, null, this);
+        this.physics.add.collider(this.bubble, this.turtles, this.bubbleTurtle, null, this);
 
         //geyser
         this.physics.add.overlap(this.bubble, this.geysers, this.geyserPush, null, this);
@@ -169,18 +169,29 @@ class Level4 extends Phaser.Scene {
         }
     }
 
-    turtleCollision(player, turtle){
-        // player.setAccelerationY(0);
-        // console.log("V");
-        // console.log(player.body.velocity);
-        // console.log("A");
-        // console.log(player.body.acceleration);
+    playerTurtle(player, turtle){
 
         player.canJump = true;
-        
+
         if(player.fallingSound){
             this.sound.play("playerLand", {volume: 0.25});
             player.fallingSound = false;
+        }
+
+        //move player with platform
+        if(!turtle.flipped) {
+            player.x -= 0.86;
+        } else if (turtle.flipped){
+            player.x += 0.86;
+        }
+    }
+
+    bubbleTurtle(bubble, turtle) {
+        //move bubble with platform
+        if(!turtle.flipped) {
+            bubble.x -= 0.86;
+        } else if (turtle.flipped){
+            bubble.x += 0.86;
         }
     }
 }

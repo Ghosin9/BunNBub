@@ -54,6 +54,6 @@ class Load extends Phaser.Scene {
     }
 
     create() {
-        this.scene.start("cutscene");
+        this.scene.start("level4");
     }
 }
