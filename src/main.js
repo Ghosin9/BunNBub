@@ -22,11 +22,12 @@ let config = {
         }
     },
 
-    scene: [Load, Cutscene, Menu, Tutorial, Level1, Level2, Level3, Level4, Level5]
+    scene: [Load, Cutscene, Menu, Credits, Pause, Tutorial, Level1, Level2, Level3, Level4, Level5]
 };
 
 let game = new Phaser.Game(config);
 
 game.settings = {
     gameOver: false,
+    geyserSpeed: -500,
 }

@@ -124,16 +124,25 @@ class Level3 extends Phaser.Scene {
         //world bounds
         this.physics.world.bounds.setTo(0, 0, map.widthInPixels, map.heightInPixels);
 
-        let textConfig = {
-            fontSize: "20px",
-            align: "center"
-        };
-
         //set up camera to follow player
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
         this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
         this.cameras.main.setDeadzone(10, 5);
         this.cameras.main.setSize(640, 360);
+
+        let scrollText = {
+            fontFamily: "Helvetica",
+            fontSize: "20px",
+            color: "#ffffff",
+            align: "left",
+        }
+
+        //scroll indicator
+        this.scrolls = 0;
+        this.scrollCountImage = this.add.image(520, 8, "scrollCounter").setOrigin(0).setScrollFactor(0);
+        this.scrollCount = this.add.text(555, 25, this.scrolls + "/2", scrollText).setOrigin(0).setScrollFactor(0);
+
+        this.sound.play("bg3", {volume: 0.1, loop: true});
     }
 
     update() {
@@ -143,11 +152,40 @@ class Level3 extends Phaser.Scene {
     talk(player, jelly) {
         jelly.dialogueBox.alpha = 1;
         jelly.text.alpha = 1;
+
+        if(jelly.type == "jelly") {
+            if(!jelly.talking) {
+                this.sound.play("jellytalk", {volume: 0.2, loop: true});
+                jelly.talking = true;
+            }
+        } else {
+            this.random = Phaser.Math.Between(1, 2);
+            switch(this.random) {
+                case 1:
+                    if(!jelly.talking) {
+                        this.sound.play("scroll1");
+                        jelly.talking = true;
+                        ++this.scrolls;
+                        this.scrollCount.text = this.scrolls + "/2";
+                    }
+                    break;
+                case 2:
+                    if(!jelly.talking) {
+                        this.sound.play("scroll2");
+                        jelly.talking = true;
+                        ++this.scrolls;
+                        this.scrollCount.text = this.scrolls + "/2";
+                    }
+                    break;
+            }
+        }
     }
 
     playerTurtle(player, turtle){
 
-        player.canJump = true;
+        if(turtle.body.touching.up) {
+            player.canJump = true;
+        }
 
         if(player.fallingSound){
             this.sound.play("playerLand", {volume: 0.25});

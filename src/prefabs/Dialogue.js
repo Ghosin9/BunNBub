@@ -39,6 +39,8 @@ class Dialogue extends Phaser.Physics.Arcade.Sprite {
     
         this.scene = scene;
         this.currentLevel = currentLevel;
+        this.talking = false;
+        this.type = type;
 
         //dialogue box
         this.dialogueBox = this.scene.add.image(x-this.boxOffsetX, y-this.boxOffsetY, "dialogue").setOrigin(0);
@@ -76,6 +78,11 @@ class Dialogue extends Phaser.Physics.Arcade.Sprite {
         if(this.body.touching.none) {
             this.dialogueBox.alpha = 0;
             this.text.alpha = 0;
+            
+            if(this.type == "jelly" && this.talking) {
+                this.talking = false;
+                this.scene.sound.removeByKey("jellytalk");
+            }
         }
     }
 }

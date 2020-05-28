@@ -41,11 +41,11 @@ class Geyser extends Phaser.Physics.Arcade.Sprite {
         this.body.setAllowGravity(false);
 
         this.scene = scene;
+        this.inView = false;
+        this.waterSound = true;
     }
 
     update() {
-        //check if player is within frame, if so play the water noise
-        
         if(this.body.touching.none) {
             this.scene.bubble.setAccelerationY(0);
         }
