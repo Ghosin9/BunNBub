@@ -81,6 +81,7 @@ class Bubble extends Phaser.Physics.Arcade.Sprite {
 
     spikeCollision(bubble, spike) {
         if(this.popSound) {
+            this.scene.sound.stopAll();
             this.scene.sound.play("pop");
             this.popSound = false;
         }

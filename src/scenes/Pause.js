@@ -11,7 +11,7 @@ class Pause extends Phaser.Scene {
 
     update() {
         if(Phaser.Input.Keyboard.JustDown(this.unPause)) {
-            this.scene.resume("tutorial");
+            this.scene.resume(game.settings.currentLevel);
             this.scene.stop("pause");
         }
     }

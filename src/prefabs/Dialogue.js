@@ -1,5 +1,5 @@
 class Dialogue extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, x, y, type, textContents, currentLevel) {
+    constructor(scene, x, y, type, textContents) {
         if(type == "jelly") {
             super(scene, x, y, "jelly", "jellyfish_1").setOrigin(0, 1);
 
@@ -38,7 +38,6 @@ class Dialogue extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this);
     
         this.scene = scene;
-        this.currentLevel = currentLevel;
         this.talking = false;
         this.type = type;
 

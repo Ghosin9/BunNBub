@@ -3934,10 +3934,7 @@
   <object id="14" name="doorEnd" x="48" y="912">
    <point/>
   </object>
-  <object id="16" name="jelly" type="Wouldn't it be ironic if you didn't remember me sir! Glub glub glub that would be funny." x="3520" y="240">
-   <point/>
-  </object>
-  <object id="17" name="jelly" type="You scared me there sir, I thought you would never wake up after your last battle." x="3024" y="352">
+  <object id="17" name="jelly" type="You scared me, I thought you would never wake up." x="3024" y="352">
    <point/>
   </object>
   <object id="19" name="jelly" type="The portal is powered by Bub, so you cannot change rooms unless you use it." x="1488" y="416">

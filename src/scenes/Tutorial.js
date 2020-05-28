@@ -34,6 +34,8 @@ class Tutorial extends Phaser.Scene {
         //2nd parameter is tilesheet key indicator from the png above
         let tileset = map.addTilesetImage("tileset", "tilesheet");
 
+        game.settings.currentLevel = "tutorial";
+
         //create dynamic layers
         //creating static layers must be inverse order of what tiled has to display layers correctly
         //parameter must be Tiled name for layer
@@ -57,21 +59,21 @@ class Tutorial extends Phaser.Scene {
         this.jellyfish = this.add.group({runChildUpdate: true});
 
         npcList.map((element) => {
-            let npc = new Dialogue(this, element.x, element.y, "jelly", element.type, "tutorial");
+            let npc = new Dialogue(this, element.x, element.y, "jelly", element.type);
             this.jellyfish.add(npc);
         });
 
         //door
         let dSpawn = map.findObject("Objects", obj => obj.name == "doorEnd");
-        this.door = new Door(this, dSpawn.x, dSpawn.y, "tutorial", "level1");
+        this.door = new Door(this, dSpawn.x, dSpawn.y, game.settings.currentLevel, "level1");
 
         //create spawn point for player
         let pSpawn = map.findObject("Objects", obj => obj.name == "playerSpawn");
-        this.player = new Player(this, pSpawn.x, pSpawn.y, "tutorial");
+        this.player = new Player(this, pSpawn.x, pSpawn.y, game.settings.currentLevel);
 
         //bubble spawn
         let bSpawn = map.findObject("Objects", obj => obj.name == "bubbleSpawn");
-        this.bubble = new Bubble(this, bSpawn.x, bSpawn.y, "tutorial");
+        this.bubble = new Bubble(this, bSpawn.x, bSpawn.y, game.settings.currentLevel);
 
         //allow for player update and bubble update
         this.gameSprites = this.add.group({

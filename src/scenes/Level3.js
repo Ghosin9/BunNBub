@@ -35,6 +35,8 @@ class Level3 extends Phaser.Scene {
         //2nd parameter is tilesheet key indicator from the png above
         let tileset = map.addTilesetImage("tileset", "tilesheet");
 
+        game.settings.currentLevel = "level3";
+
         //create dynamic layers
         //creating static layers must be inverse order of what tiled has to display layers correctly
         //parameter must be Tiled name for layer
@@ -58,7 +60,7 @@ class Level3 extends Phaser.Scene {
         this.npcs = this.add.group({runChildUpdate: true});
 
         npcList.map((element) => {
-            let npc = new Dialogue(this, element.x, element.y, "jelly", element.type, "level1");
+            let npc = new Dialogue(this, element.x, element.y, "jelly", element.type);
             this.npcs.add(npc);
         });
 
@@ -66,12 +68,12 @@ class Level3 extends Phaser.Scene {
         let scrollList = map.filterObjects("Objects", obj => obj.name == "scroll");
 
         scrollList.map((element) => {
-            let npc = new Dialogue(this, element.x, element.y, "scroll", element.type, "level1");
+            let npc = new Dialogue(this, element.x, element.y, "scroll", element.type);
             this.npcs.add(npc);
         });
         //door
         let dSpawn = map.findObject("Objects", obj => obj.name == "doorEnd");
-        this.door = new Door(this, dSpawn.x, dSpawn.y, "level3", "level4");
+        this.door = new Door(this, dSpawn.x, dSpawn.y, game.settings.currentLevel, "level4");
 
         //turtle
         let turtleList = map.filterObjects("Objects", obj => obj.name == "turtleSpawn");
@@ -85,12 +87,12 @@ class Level3 extends Phaser.Scene {
         //create spawn point for player
         let pSpawn = map.findObject("Objects", obj => obj.name == "playerSpawn");
         //create player 
-        this.player = new Player(this, pSpawn.x, pSpawn.y, "level3");
+        this.player = new Player(this, pSpawn.x, pSpawn.y, game.settings.currentLevel);
 
         //bubble spawn
         let bSpawn = map.findObject("Objects", obj => obj.name == "bubbleSpawn");
         //create bubble
-        this.bubble = new Bubble(this, bSpawn.x, bSpawn.y, "level3");
+        this.bubble = new Bubble(this, bSpawn.x, bSpawn.y, game.settings.currentLevel);
 
         //allow for player update and bubble update
         this.gameSprites = this.add.group({
@@ -185,11 +187,10 @@ class Level3 extends Phaser.Scene {
 
         if(turtle.body.touching.up) {
             player.canJump = true;
-        }
-
-        if(player.fallingSound){
-            this.sound.play("playerLand", {volume: 0.25});
-            player.fallingSound = false;
+            if(player.fallingSound){
+                this.sound.play("playerLand", {volume: 0.25});
+                player.fallingSound = false;
+            }
         }
 
         //move player with platform

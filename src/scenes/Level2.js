@@ -35,6 +35,8 @@ class Level2 extends Phaser.Scene {
         //2nd parameter is tilesheet key indicator from the png above
         let tileset = map.addTilesetImage("tileset", "tilesheet");
 
+        game.settings.currentLevel = "level2";
+
         //create dynamic layers
         //creating static layers must be inverse order of what tiled has to display layers correctly
         //parameter must be Tiled name for layer
@@ -58,7 +60,7 @@ class Level2 extends Phaser.Scene {
         this.npcs = this.add.group({runChildUpdate: true});
 
         npcList.map((element) => {
-            let npc = new Dialogue(this, element.x, element.y, "jelly", element.type, "level1");
+            let npc = new Dialogue(this, element.x, element.y, "jelly", element.type);
             this.npcs.add(npc);
         });
 
@@ -66,13 +68,13 @@ class Level2 extends Phaser.Scene {
         let scrollList = map.filterObjects("Objects", obj => obj.name == "scroll");
 
         scrollList.map((element) => {
-            let npc = new Dialogue(this, element.x, element.y, "scroll", element.type, "level1");
+            let npc = new Dialogue(this, element.x, element.y, "scroll", element.type);
             this.npcs.add(npc);
         });
 
         //door
         let dSpawn = map.findObject("Objects", obj => obj.name == "doorEnd");
-        this.door = new Door(this, dSpawn.x, dSpawn.y, "level2", "level3");
+        this.door = new Door(this, dSpawn.x, dSpawn.y, game.settings.currentLevel, "level3");
 
         //geyser
         let geyserAList = map.filterObjects("Objects", obj => obj.name == "geyserASpawn");

@@ -35,6 +35,8 @@ class Level5 extends Phaser.Scene {
         //2nd parameter is tilesheet key indicator from the png above
         let tileset = map.addTilesetImage("tileset_2", "tilesheet2");
 
+        game.settings.currentLevel = "level5";
+
         //create dynamic layers
         //creating static layers must be inverse order of what tiled has to display layers correctly
         //parameter must be Tiled name for layer
@@ -56,12 +58,12 @@ class Level5 extends Phaser.Scene {
         //create spawn point for player
         let pSpawn = map.findObject("Objects", obj => obj.name == "playerSpawn");
         //create player 
-        this.player = new Player(this, pSpawn.x, pSpawn.y, "level5");
+        this.player = new Player(this, pSpawn.x, pSpawn.y, game.settings.currentLevel);
 
         //bubble spawn
         let bSpawn = map.findObject("Objects", obj => obj.name == "bubbleSpawn");
         //create bubble
-        this.bubble = new Bubble(this, bSpawn.x, bSpawn.y, "level5");
+        this.bubble = new Bubble(this, bSpawn.x, bSpawn.y, game.settings.currentLevel);
 
         //allow for player update and bubble update
         this.gameSprites = this.add.group({
@@ -101,7 +103,11 @@ class Level5 extends Phaser.Scene {
         this.scrollCountImage = this.add.image(520, 8, "scrollCounter").setOrigin(0).setScrollFactor(0);
         this.scrollCount = this.add.text(555, 25, this.scrolls + "/0", scrollText).setOrigin(0).setScrollFactor(0);
 
-        this.sound.play("bgend", {volume: 0.1, loop: true});
+        this.sound.play("bgend", {volume: 0.2, loop: true});
+
+        //adding guppy
+        let gSpawn = map.findObject("Objects", obj => obj.name == "guppySpawn");
+        this.guppy = this.add.sprite(this, gSpawn.x, gSpawn.y, "guppy", "guppy_1");
     }
 
     update() {
