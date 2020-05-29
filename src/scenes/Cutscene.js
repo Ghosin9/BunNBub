@@ -14,7 +14,7 @@ class Cutscene extends Phaser.Scene {
         this.num = 0;
 
         this.time.addEvent({
-            delay: 4000,
+            delay: 3000,
             callback: this.changeCutscene,
             callbackScope: this,
             repeat: 4

@@ -109,7 +109,7 @@
                  "visible":true,
                  "width":0,
                  "x":80,
-                 "y":256
+                 "y":248.5
                 }, 
                 {
                  "height":0,
@@ -277,7 +277,7 @@
          "margin":0,
          "name":"tileset_2",
          "spacing":0,
-         "tilecount":396,
+         "tilecount":320,
          "tileheight":16,
          "tiles":[
                 {

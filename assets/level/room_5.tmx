@@ -3,7 +3,7 @@
  <editorsettings>
   <export target="room_5.json" format="json"/>
  </editorsettings>
- <tileset firstgid="1" name="tileset_2" tilewidth="16" tileheight="16" tilecount="396" columns="20">
+ <tileset firstgid="1" name="tileset_2" tilewidth="16" tileheight="16" tilecount="320" columns="20">
   <image source="tilesheet_2.png" width="320" height="256"/>
   <tile id="0">
    <properties>
@@ -1801,7 +1801,7 @@
   <object id="3" name="bubbleSpawn" x="528" y="256">
    <point/>
   </object>
-  <object id="6" name="guppySpawn" x="80" y="256">
+  <object id="6" name="guppySpawn" x="80" y="248.5">
    <point/>
   </object>
   <object id="7" name="skeleton" x="352" y="272">

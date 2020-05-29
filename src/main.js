@@ -14,7 +14,7 @@ let config = {
     physics: {
         default: "arcade",
         arcade: {
-            debug: true,
+            //debug: true,
             gravity: {
                 x: 0,
                 y: 1500,
@@ -30,5 +30,5 @@ let game = new Phaser.Game(config);
 game.settings = {
     gameOver: false,
     geyserSpeed: -500,
-    currentLevel = "tutorial",
+    currentLevel: "tutorial",
 }

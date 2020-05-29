@@ -107,7 +107,23 @@ class Level5 extends Phaser.Scene {
 
         //adding guppy
         let gSpawn = map.findObject("Objects", obj => obj.name == "guppySpawn");
-        this.guppy = this.add.sprite(this, gSpawn.x, gSpawn.y, "guppy", "guppy_1");
+
+        this.guppy = this.physics.add.sprite(gSpawn.x, gSpawn.y, "guppy", "guppy_1");
+        this.guppy.body.setAllowGravity(false);
+        this.guppy.setImmovable(true);
+        
+        this.anims.create({
+            key: "guppyIdle",
+            frames: this.anims.generateFrameNames("guppy", {
+                prefix: "guppy_",
+                start: 1,
+                end: 5,
+            }),
+            repeat: -1,
+            frameRate: 6,
+        });
+
+        this.guppy.anims.play("guppyIdle");
     }
 
     update() {

@@ -1,9 +1,26 @@
 class Load extends Phaser.Scene {
     constructor() {
-        super("loadScene");
+        super({key: "loadScene", pack: {files: [ { type: "image", key: "loading", url:"assets/ui/loading.png"}]}});
     }
 
     preload() {
+        //https://www.patchesoft.com/phaser-3-loading-screen
+        this.add.image(0, 0, "loading").setOrigin(0);
+
+        this.graphics = this.add.graphics();
+		this.newGraphics = this.add.graphics();
+		var progressBar = new Phaser.Geom.Rectangle(125, 270, 400, 50);
+		var progressBarFill = new Phaser.Geom.Rectangle(130, 275, 290, 40);
+
+		this.graphics.fillStyle(0x9266B1, 1);
+		this.graphics.fillRectShape(progressBar);
+
+		this.newGraphics.fillStyle(0xCCF4FF, 1);
+		this.newGraphics.fillRectShape(progressBarFill);
+
+		this.load.on('progress', this.updateBar, {newGraphics:this.newGraphics});
+		this.load.on('complete', this.complete);
+
         //gameplay assets
         this.load.path = "assets/";
         //player
@@ -83,6 +100,20 @@ class Load extends Phaser.Scene {
     }
 
     create() {
-        this.scene.start("tutorial");
+        //236, 229, 242 light purple
+        this.cameras.main.fadeOut(2000, 255, 255, 255);
+
+        this.cameras.main.once("camerafadeoutcomplete", () => {
+            this.scene.start("menu");
+        });
+    }
+
+    updateBar(percentage) {
+        this.newGraphics.clear();
+        this.newGraphics.fillStyle(0xCCF4FF, 1);
+        this.newGraphics.fillRectShape(new Phaser.Geom.Rectangle(130, 275, percentage*390, 40));
+    }
+
+    complete() {
     }
 }
