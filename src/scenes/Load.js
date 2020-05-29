@@ -104,7 +104,7 @@ class Load extends Phaser.Scene {
         this.cameras.main.fadeOut(2000, 255, 255, 255);
 
         this.cameras.main.once("camerafadeoutcomplete", () => {
-            this.scene.start("menu");
+            this.scene.start("cutscene");
         });
     }
 

@@ -71,6 +71,7 @@ class Bubble extends Phaser.Physics.Arcade.Sprite {
         if(!this.anims.isPlaying) {
             //restart level
             this.scene.scene.start(this.currentLevel);
+            this.scene.sound.stopAll();
             //this.destroy();
         }
 
@@ -81,7 +82,6 @@ class Bubble extends Phaser.Physics.Arcade.Sprite {
 
     spikeCollision(bubble, spike) {
         if(this.popSound) {
-            this.scene.sound.stopAll();
             this.scene.sound.play("pop");
             this.popSound = false;
         }

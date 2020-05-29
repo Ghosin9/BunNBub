@@ -119,6 +119,7 @@ class Level1 extends Phaser.Scene {
         this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
         this.cameras.main.setDeadzone(10, 5);
         this.cameras.main.setSize(640, 360);
+        this.cameras.main.roundPixels = true;
 
         let scrollText = {
             fontFamily: "Helvetica",
@@ -154,7 +155,7 @@ class Level1 extends Phaser.Scene {
             switch(this.random) {
                 case 1:
                     if(!jelly.talking) {
-                        this.sound.play("scroll1");
+                        this.sound.play("scroll1", {volume: 0.5});
                         jelly.talking = true;
                         ++this.scrolls;
                         this.scrollCount.text = this.scrolls + "/2";
@@ -162,7 +163,7 @@ class Level1 extends Phaser.Scene {
                     break;
                 case 2:
                     if(!jelly.talking) {
-                        this.sound.play("scroll2");
+                        this.sound.play("scroll2", {volume: 0.5});
                         jelly.talking = true;
                         ++this.scrolls;
                         this.scrollCount.text = this.scrolls + "/2";

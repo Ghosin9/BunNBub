@@ -102,12 +102,12 @@ class Level4 extends Phaser.Scene {
         //create spawn point for player
         let pSpawn = map.findObject("Objects", obj => obj.name == "playerSpawn");
         //create player 
-        this.player = new Player(this, pSpawn.x, pSpawn.y, game.settings.currentLevel);
+        this.player = new Player(this, pSpawn.x, pSpawn.y, "level4");
 
         //bubble spawn
         let bSpawn = map.findObject("Objects", obj => obj.name == "bubbleSpawn");
         //create bubble
-        this.bubble = new Bubble(this, bSpawn.x, bSpawn.y, game.settings.currentLevel);
+        this.bubble = new Bubble(this, bSpawn.x, bSpawn.y, "level4");
 
         //allow for player update and bubble update
         this.gameSprites = this.add.group({
@@ -149,6 +149,7 @@ class Level4 extends Phaser.Scene {
         this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
         this.cameras.main.setDeadzone(10, 5);
         this.cameras.main.setSize(640, 360);
+        this.cameras.main.roundPixels = true;
 
         let scrollText = {
             fontFamily: "Helvetica",
@@ -183,7 +184,7 @@ class Level4 extends Phaser.Scene {
             switch(this.random) {
                 case 1:
                     if(!jelly.talking) {
-                        this.sound.play("scroll1");
+                        this.sound.play("scroll1", {volume: 0.5});
                         jelly.talking = true;
                         ++this.scrolls;
                         this.scrollCount.text = this.scrolls + "/5";
@@ -191,7 +192,7 @@ class Level4 extends Phaser.Scene {
                     break;
                 case 2:
                     if(!jelly.talking) {
-                        this.sound.play("scroll2");
+                        this.sound.play("scroll2", {volume: 0.5});
                         jelly.talking = true;
                         ++this.scrolls;
                         this.scrollCount.text = this.scrolls + "/5";

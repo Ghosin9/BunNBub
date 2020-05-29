@@ -84,7 +84,7 @@ class Player extends Phaser.Physics.Arcade.Sprite {
         //world bounds
         this.setCollideWorldBounds(true);
         //max velocity
-        this.setMaxVelocity(200, 700);
+        this.setMaxVelocity(200, 650);
     }
 
     update(time, delta) {
@@ -119,9 +119,9 @@ class Player extends Phaser.Physics.Arcade.Sprite {
 
         //pause
         if(Phaser.Input.Keyboard.JustDown(this.pause)) {
-            game.scene.pause(this.currentLevel);
+            game.scene.pause(game.settings.currentLevel);
+            game.scene.moveDown(game.settings.currentLevel);
             game.scene.start("pause");
-            game.scene.moveDown(this.currentLevel);
         }
 
         if(!this.camera) {
@@ -187,20 +187,24 @@ class Player extends Phaser.Physics.Arcade.Sprite {
             if(this.body.velocity.y < 0) {
                 this.anims.play("jump", true);
                 this.setOffset(0, 0);
+                this.canJump = false;
                 this.walking = true;
                 this.scene.sound.removeByKey("bunwalk");
             } else if (this.body.velocity.y > 0) {
                 this.anims.play("fall", true);
                 this.fallingSound = true;
                 this.walking = true;
+                this.canJump = false;
                 this.scene.sound.removeByKey("bunwalk");
             }
 
             //landing sound
-            if(this.body.blocked.down && this.fallingSound) {
-                this.scene.sound.play("playerLand", {volume: 0.25});
-                this.fallingSound = false;
-                this.canJump = true;
+            if(this.body.blocked.down) {
+                if(this.fallingSound) {
+                    this.scene.sound.play("playerLand", {volume: 0.1});
+                    this.fallingSound = false;
+                    this.canJump = true;
+                }
             }
 
             //camera mode

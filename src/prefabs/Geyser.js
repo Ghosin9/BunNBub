@@ -41,13 +41,25 @@ class Geyser extends Phaser.Physics.Arcade.Sprite {
         this.body.setAllowGravity(false);
 
         this.scene = scene;
-        this.inView = false;
-        this.waterSound = true;
+        this.music = this.scene.sound.add("geyser", {
+            loop: true,
+            volume: 0.2,
+        });
+
+        this.music.play();
     }
 
     update() {
         if(this.body.touching.none) {
             this.scene.bubble.setAccelerationY(0);
         }
+
+        //if in view, play sound
+        this.distance = Phaser.Math.Distance.Between(this.scene.player.x, this.scene.player.y, this.x, this.y);
+        this.waterVolume = this.distance*-0.0007+0.2;
+        if(this.waterVolume <= 0) {
+            this.waterVolume = 0;
+        }
+        this.music.volume = this.waterVolume;
     }
 }
