@@ -85,6 +85,7 @@ class Transition extends Phaser.Scene {
 
     haiku() {
         this.add.image(0, 0, "arrow").setOrigin(0);
+
         this.canPress = true;
     }
 

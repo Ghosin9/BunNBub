@@ -16,7 +16,7 @@ class Door extends Phaser.Physics.Arcade.Sprite {
 
         this.scene.cameras.main.once("camerafadeoutcomplete", () => {
             //remove music
-            this.scene.sound.removeAll();
+            this.scene.sound.stopAll();
             
             this.scene.scene.start("transition");
             this.scene.scene.stop(this.currentLevel);
@@ -26,7 +26,7 @@ class Door extends Phaser.Physics.Arcade.Sprite {
 
     doorCollision(player, door) {
         if(player.holding && this.transition) {
-            this.scene.cameras.main.fadeOut(1000);
+            this.scene.cameras.main.fadeOut(1750);
             this.scene.sound.play("doorSound");
             this.transition = false;
         }
