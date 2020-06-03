@@ -22,7 +22,7 @@ let config = {
         }
     },
 
-    scene: [Load, Cutscene, Menu, Credits, Pause, Tutorial, Level1, Level2, Level3, Level4, Level5]
+    scene: [Load, Cutscene, Menu, Credits, Pause, Tutorial, Transition, Level1, Level2, Level3, Level4, Level5, EndCutscene]
 };
 
 let game = new Phaser.Game(config);

@@ -203,11 +203,13 @@ class Level3 extends Phaser.Scene {
     }
 
     bubbleTurtle(bubble, turtle) {
-        //move bubble with platform
-        if(!turtle.flipped) {
-            bubble.x -= 0.86;
-        } else if (turtle.flipped){
-            bubble.x += 0.86;
+        if(!this.player.holding) {
+            //move bubble with platform
+            if(!turtle.flipped) {
+                bubble.x -= 0.86;
+            } else if (turtle.flipped){
+                bubble.x += 0.86;
+            }
         }
     }
 }

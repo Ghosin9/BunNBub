@@ -60,6 +60,26 @@ class Load extends Phaser.Scene {
         this.load.image("cutscene2", "sleep.png");
         this.load.image("cutscene3", "high1.png");
         this.load.image("cutscene4", "high2.png");
+        //arrow
+        this.load.image("arrow", "arrow.png");
+        //end cutscene
+        this.load.path = "assets/ui/endCutscene/";
+        this.load.image("bars", "bars.png");
+        this.load.image("end1", "end1.png");
+        this.load.image("end2", "end2.png");
+        this.load.image("end3", "end3.png");
+        this.load.image("end4", "end4.png");
+        this.load.image("end5", "end5.png");
+        this.load.image("end6", "end6.png");
+        this.load.image("end7", "end7.png");
+        //transition
+        this.load.path = "assets/ui/transition/";
+        this.load.image("t1", "tween1.png");
+        this.load.image("t2", "tween2_bar.png");
+        this.load.image("t3", "tween3_bar.png");
+        this.load.image("t4", "tween4_bar.png");
+        this.load.image("black", "black.png");
+        this.load.atlas("lastTransition", "lastlvl.png", "lastlvl.json");
 
         //sound assets
         this.load.path = "assets/sound/";

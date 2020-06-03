@@ -148,7 +148,7 @@ class Level2 extends Phaser.Scene {
         //scroll indicator
         this.scrolls = 0;
         this.scrollCountImage = this.add.image(520, 8, "scrollCounter").setOrigin(0).setScrollFactor(0);
-        this.scrollCount = this.add.text(555, 25, this.scrolls + "/1", scrollText).setOrigin(0).setScrollFactor(0);
+        this.scrollCount = this.add.text(555, 25, this.scrolls + "/2", scrollText).setOrigin(0).setScrollFactor(0);
 
         this.sound.play("bg2", {volume: 0.1, loop: true});
     }
@@ -174,7 +174,7 @@ class Level2 extends Phaser.Scene {
                         this.sound.play("scroll1", {volume: 0.5});
                         jelly.talking = true;
                         ++this.scrolls;
-                        this.scrollCount.text = this.scrolls + "/1";
+                        this.scrollCount.text = this.scrolls + "/2";
                     }
                     break;
                 case 2:
@@ -182,7 +182,7 @@ class Level2 extends Phaser.Scene {
                         this.sound.play("scroll2", {volume: 0.5});
                         jelly.talking = true;
                         ++this.scrolls;
-                        this.scrollCount.text = this.scrolls + "/1";
+                        this.scrollCount.text = this.scrolls + "/2";
                     }
                     break;
             }

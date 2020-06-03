@@ -53,8 +53,6 @@ class Level5 extends Phaser.Scene {
         //property must be the same name as custom property in Tiled
         groundLayer.setCollisionByProperty({collides: true});
 
-        //npc
-
         //create spawn point for player
         let pSpawn = map.findObject("Objects", obj => obj.name == "playerSpawn");
         //create player 
@@ -80,8 +78,6 @@ class Level5 extends Phaser.Scene {
         //bun x bub 
         this.physics.add.overlap(this.player, this.bubble, this.player.bubbleCollision, null, this.player);
 
-        //npc
-
         //world bounds
         this.physics.world.bounds.setTo(0, 0, map.widthInPixels, map.heightInPixels);
 
@@ -92,18 +88,6 @@ class Level5 extends Phaser.Scene {
         this.cameras.main.setSize(640, 360);
         this.cameras.main.roundPixels = true;
 
-        let scrollText = {
-            fontFamily: "Helvetica",
-            fontSize: "20px",
-            color: "#ffffff",
-            align: "left",
-        }
-
-        //scroll indicator
-        this.scrolls = 0;
-        this.scrollCountImage = this.add.image(520, 8, "scrollCounter").setOrigin(0).setScrollFactor(0);
-        this.scrollCount = this.add.text(555, 25, this.scrolls + "/0", scrollText).setOrigin(0).setScrollFactor(0);
-
         this.sound.play("bgend", {volume: 0.2, loop: true});
 
         //adding guppy
@@ -111,55 +95,154 @@ class Level5 extends Phaser.Scene {
 
         this.guppy = this.physics.add.sprite(gSpawn.x, gSpawn.y, "guppy", "guppy_1");
         this.guppy.body.setAllowGravity(false);
-        this.guppy.setImmovable(true);
+        //this.guppy.setImmovable(true);
         
         this.anims.create({
             key: "guppyIdle",
             frames: this.anims.generateFrameNames("guppy", {
                 prefix: "guppy_",
                 start: 1,
-                end: 5,
+                end: 3,
             }),
             repeat: -1,
-            frameRate: 6,
+            frameRate: 3,
         });
 
-        this.guppy.anims.play("guppyIdle");
+        this.anims.create({
+            key: "guppyWalk",
+            frames: this.anims.generateFrameNames("guppy", {
+                prefix: "guppy_walk_",
+                start: 1,
+                end: 3,
+            }),
+            repeat: -1,
+            frameRate: 3,
+        });
+
+        //cutscene shit
+        this.bars = this.add.image(0, 0, "bars").setOrigin(0).setAlpha(0).setScrollFactor(0);
+
+        //right arrow
+        this.right = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+
+        this.playingCutscene = false;
+        this.cameraZoom = true;
+        this.finishedCutscene = false;
+        this.counter = 1;
+        this.ending = false;
+        this.inEnding = false;
+        this.nextText = false;
+
+        this.cameras.main.once("camerazoomcomplete", () => {
+            this.bars.setAlpha(0);
+            this.cameras.main.fadeOut(500, 255, 255, 255);
+        });
+
+        this.cameras.main.once("camerafadeoutcomplete", () => {
+            if(!this.ending) {
+                game.scene.pause(game.settings.currentLevel);
+                game.scene.moveDown(game.settings.currentLevel);
+                game.scene.start("endcutscene");
+                this.cameras.main.fadeIn(1000);
+                this.cameras.main.zoomTo(1, 2000, "Quad.easeIn");
+                this.bars.setAlpha(1);
+                this.cutscene();
+            }
+        });
     }
 
     update() {
-        //this.sys.animatedTiles.updateAnimatedTiles();
-    }
+        if(this.player.x <= 375) {
+            this.playingCutscene = true;
+            this.player.control = false;
 
-    talk(player, jelly) {
-        jelly.dialogueBox.alpha = 1;
-        jelly.text.alpha = 1;
+            this.player.holding = false;
+            this.player.anims.play("idle", true);
+            this.player.setVelocityX(0);
+            this.player.setAccelerationX(0);
 
-        if(jelly.type == "jelly") {
-            if(!jelly.talking) {
-                this.sound.play("jellytalk", {volume: 0.2, loop: true});
-                jelly.talking = true;
-            }
-        } else {
-            this.random = Phaser.Math.Between(1, 2);
-            switch(this.random) {
-                case 1:
-                    if(!jelly.talking) {
-                        this.sound.play("scroll1", {volume: 0.5});
-                        jelly.talking = true;
-                        ++this.scrolls;
-                        this.scrollCount.text = this.scrolls + "/0";
-                    }
-                    break;
-                case 2:
-                    if(!jelly.talking) {
-                        this.sound.play("scroll2", {volume: 0.5});
-                        jelly.talking = true;
-                        ++this.scrolls;
-                        this.scrollCount.text = this.scrolls + "/0";
-                    }
-                    break;
+            this.sound.removeByKey("bunwalk");
+            this.sound.removeByKey("bgend");
+        }
+
+        if(this.playingCutscene) {
+            this.bars.setAlpha(1);
+            if(this.guppy.x < 175) {
+                this.guppy.anims.play("guppyWalk", true);
+                this.guppy.x += 1.5;
+            } else {
+                this.guppy.anims.play("guppyIdle", true);
+                if(this.cameraZoom) {
+                    this.cameraZoom = false;
+
+                    this.cameras.main.startFollow(this.guppy, true, 0.1, 0.1);
+                    this.cameras.main.zoomTo(5, 2000, "Quad.easeIn");
+                }
             }
         }
+
+        if(this.finishedCutscene && this.nextText && Phaser.Input.Keyboard.JustDown(this.right)) {
+            switch(this.counter) {
+                case 1:
+                    this.text.text = "I will avenge all who have fallen."
+                    break;
+                case 2:
+                    this.text.setAlpha(0);
+                    this.bars.setAlpha(0);
+                    this.ending = true;
+                    break;
+            }
+
+            ++this.counter;
+        }
+
+        if(this.ending) {
+
+            if(!this.inEnding) {
+                this.guppy.anims.play("guppyWalk", true);
+                this.guppy.setVelocityX(275);
+                this.guppy.setVelocityY(-600);
+                this.guppy.body.setAllowGravity(true);
+
+                this.cameras.main.stopFollow();
+                this.cameras.main.fadeOut(750, 255, 255, 255);
+                this.arrow.setAlpha(0);
+                this.inEnding =true;
+
+                this.cameras.main.once("camerafadeoutcomplete", () => {
+                    this.time.addEvent({
+                        delay: 2000,
+                        callback: () => {
+                            this.scene.start("credits");
+                        },
+                        callbackScope: this,
+                    });
+                });
+            }
+        }
+    }
+
+    cutscene() {
+        this.finishedCutscene = true;
+        let textConfig = {
+            fontFamily: "Helvetica",
+            fontSize: "20px",
+            fontStyle: "bold",
+            align: "center",
+            color: "#ffffff",
+            fixedWidth: 630,
+            fixedHeight: 50,
+            wordWrap: {
+                width: 630,
+            },
+        }
+
+        this.cameras.main.once("camerazoomcomplete", () => {
+            this.nextText = true;
+        });
+
+        this.textContents = "You monster…";
+        this.text = this.add.text(5, 25, this.textContents, textConfig).setOrigin(0).setScrollFactor(0);
+        this.arrow = this.add.image(0, 0, "arrow").setOrigin(0).setScrollFactor(0);
     }
 }

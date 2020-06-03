@@ -189,7 +189,7 @@
                  "name":"jelly",
                  "point":true,
                  "rotation":0,
-                 "type":"If you forget any of this, PRESS P to pause. Goodluck out there sir!",
+                 "type":"If you forget any of this, PRESS P to pause.",
                  "visible":true,
                  "width":0,
                  "x":256,

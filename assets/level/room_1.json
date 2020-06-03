@@ -170,6 +170,18 @@
                  "width":0,
                  "x":64,
                  "y":192
+                }, 
+                {
+                 "height":0,
+                 "id":27,
+                 "name":"jelly",
+                 "point":true,
+                 "rotation":0,
+                 "type":"Remember, sometimes its easier to explore without Bub. It's okay to leave Bub and come back when you're ready.",
+                 "visible":true,
+                 "width":0,
+                 "x":928,
+                 "y":528
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -178,7 +190,7 @@
          "y":0
         }],
  "nextlayerid":14,
- "nextobjectid":27,
+ "nextobjectid":28,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.3.4",

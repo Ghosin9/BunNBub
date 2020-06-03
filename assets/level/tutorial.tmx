@@ -3928,7 +3928,7 @@
   <object id="10" name="jelly" type="Sir! PRESS Z to view the map. That way you don't have to fear large cliffs like this one!" x="448" y="368">
    <point/>
   </object>
-  <object id="11" name="jelly" type="If you forget any of this, PRESS P to pause. Goodluck out there sir!" x="256" y="912">
+  <object id="11" name="jelly" type="If you forget any of this, PRESS P to pause." x="256" y="912">
    <point/>
   </object>
   <object id="14" name="doorEnd" x="48" y="912">

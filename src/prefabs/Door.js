@@ -15,30 +15,12 @@ class Door extends Phaser.Physics.Arcade.Sprite {
         this.transition = true;
 
         this.scene.cameras.main.once("camerafadeoutcomplete", () => {
-            this.scene.scene.start(this.nextLevel);
-            this.scene.scene.stop(this.currentLevel);
-            
             //remove music
-            switch(this.currentLevel) {
-                case "tutorial":
-                    this.scene.sound.removeByKey("bgtut");
-                    break;
-                case "level1":
-                    this.scene.sound.removeByKey("bg1");
-                    break;
-                case "level2":
-                    this.scene.sound.removeByKey("bg2");
-                    break;
-                case "level3":
-                    this.scene.sound.removeByKey("bg3");
-                    break;
-                case "level4":
-                    this.scene.sound.removeByKey("bg4");
-                    break;
-                case "level5":
-                    this.scene.sound.removeByKey("bgend");
-                    break;
-            }
+            this.scene.sound.removeAll();
+            
+            this.scene.scene.start("transition");
+            this.scene.scene.stop(this.currentLevel);
+
         });
     }
 
