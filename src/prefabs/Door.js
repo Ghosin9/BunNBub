@@ -1,5 +1,5 @@
 class Door extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, x, y, currentLevel, nextLevel) {
+    constructor(scene, x, y, currentLevel) {
         super(scene, x, y, "door", "door_1").setOrigin(0, 1);
 
         scene.add.existing(this);
@@ -9,7 +9,6 @@ class Door extends Phaser.Physics.Arcade.Sprite {
         this.body.setAllowGravity(false);
 
         this.scene = scene;
-        this.nextLevel = nextLevel;
         this.currentLevel = currentLevel;
 
         this.transition = true;

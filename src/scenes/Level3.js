@@ -73,7 +73,7 @@ class Level3 extends Phaser.Scene {
         });
         //door
         let dSpawn = map.findObject("Objects", obj => obj.name == "doorEnd");
-        this.door = new Door(this, dSpawn.x, dSpawn.y, game.settings.currentLevel, "level4");
+        this.door = new Door(this, dSpawn.x, dSpawn.y, game.settings.currentLevel);
 
         //turtle
         let turtleList = map.filterObjects("Objects", obj => obj.name == "turtleSpawn");

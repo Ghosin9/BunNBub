@@ -42,33 +42,32 @@ class Transition extends Phaser.Scene {
         switch(game.settings.currentLevel) {
             case "tutorial":
                 this.add.image(0, 0, "t1").setOrigin(0);
+                this.add.image(0, 0, "bars").setOrigin(0);
+
+                this.textContents = "Slept for days on end\n Amnesia has settled in\n The story unfolds"
                 this.nextLevel = "level1";
                 break;
             case "level1":
                 this.add.image(0, 0, "t2").setOrigin(0);
                 
                 this.textContents = "Stories of conquest\n A great leader we must face\n Never defeated"
-                this.add.text(5, 10, this.textContents, textConfig);
-
                 this.nextLevel = "level2";
                 break;
             case "level2":
                 this.add.image(0, 0, "t3").setOrigin(0);
 
                 this.textContents = "He rides great turtles\n Splashes in geysers for fun\n His name sends shivers"
-                this.add.text(5, 10, this.textContents, textConfig);
-
                 this.nextLevel = "level3";
                 break;
             case "level3":
                 this.add.image(0, 0, "t4").setOrigin(0);
 
                 this.textContents = "Slays all challengers\n None ever made it past him\n Nor his jellyfish"
-                this.add.text(5, 10, this.textContents, textConfig);
-
                 this.nextLevel = "level4";
                 break;
         }
+
+        this.add.text(5, 10, this.textContents, textConfig);
     }
 
     update() {

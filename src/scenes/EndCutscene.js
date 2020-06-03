@@ -40,25 +40,25 @@ class EndCutscene extends Phaser.Scene {
                     this.end2.setAlpha(1);
                     break;
                 case 2:
-                    this.text.text = "Look around you!";
+                    this.text.text = "How dare you ask me why I’m here...";
                     this.end3.setAlpha(1);
                     break;
                 case 3:
-                    this.text.text = "How can you look at me with such confusion on your face, this couldn’t have been all my doing?";
-                    this.text.y = 15;
+                    this.text.text = "I have to protect my kingdom no matter the cost.";
                     this.end4.setAlpha(1);
                     break;
                 case 4:
-                    this.text.text = "Every portal you triggered with that bubble of yours…";
-                    this.text.y = 25;
+                    this.text.text = "You call this protecting? Look how many lives have you taken.";
                     this.end5.setAlpha(1);
                     break;
                 case 5:
-                    this.text.text = "All those toxic spikes your jellyfish planted…";
+                    this.text.text = "Every portal you triggered with that bubble of yours… All those toxic spikes your jellyfish planted…";
+                    this.text.y = 15;
                     this.end6.setAlpha(1);
                     break;
                 case 6:
                     this.text.text = "They all killed my friends.";
+                    this.text.y = 25;
                     this.end7.setAlpha(1);
                     break;
                 case 7:

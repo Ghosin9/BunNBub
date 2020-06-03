@@ -74,7 +74,7 @@ class Level2 extends Phaser.Scene {
 
         //door
         let dSpawn = map.findObject("Objects", obj => obj.name == "doorEnd");
-        this.door = new Door(this, dSpawn.x, dSpawn.y, game.settings.currentLevel, "level3");
+        this.door = new Door(this, dSpawn.x, dSpawn.y, game.settings.currentLevel);
 
         //geyser
         let geyserAList = map.filterObjects("Objects", obj => obj.name == "geyserASpawn");

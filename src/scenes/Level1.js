@@ -75,7 +75,7 @@ class Level1 extends Phaser.Scene {
 
         //door
         let dSpawn = map.findObject("Objects", obj => obj.name == "doorEnd");
-        this.door = new Door(this, dSpawn.x, dSpawn.y, game.settings.currentLevel, "level2");
+        this.door = new Door(this, dSpawn.x, dSpawn.y, game.settings.currentLevel);
 
         //create spawn point for player
         let pSpawn = map.findObject("Objects", obj => obj.name == "playerSpawn");
