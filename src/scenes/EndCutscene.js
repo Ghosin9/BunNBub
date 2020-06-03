@@ -44,7 +44,7 @@ class EndCutscene extends Phaser.Scene {
                     this.end3.setAlpha(1);
                     break;
                 case 3:
-                    this.text.text = "How can you look at me with such confusion on your face when this is all your doing?";
+                    this.text.text = "How can you look at me with such confusion on your face, this couldn’t have been all my doing?";
                     this.text.y = 15;
                     this.end4.setAlpha(1);
                     break;

@@ -9,12 +9,13 @@ class Cutscene extends Phaser.Scene {
         this.cutscene2 = this.add.image(0, 0, "cutscene2").setOrigin(0).setAlpha(0);
         this.cutscene3 = this.add.image(0, 0, "cutscene3").setOrigin(0).setAlpha(0);
         this.cutscene4 = this.add.image(0, 0, "cutscene4").setOrigin(0).setAlpha(0);
+        this.arrow = this.add.image(0, 0, "arrow").setOrigin(0);
 
         this.cursors = this.input.keyboard.createCursorKeys();
         this.num = 0;
 
         this.time.addEvent({
-            delay: 3000,
+            delay: 3500,
             callback: this.changeCutscene,
             callbackScope: this,
             repeat: 4
