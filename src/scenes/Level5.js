@@ -88,6 +88,10 @@ class Level5 extends Phaser.Scene {
         this.cameras.main.setSize(640, 360);
         this.cameras.main.roundPixels = true;
 
+        //remove music
+        this.sound.stopAll();
+
+        //play background music
         this.sound.play("bgend", {volume: 0.2, loop: true});
 
         //adding guppy
@@ -242,6 +246,7 @@ class Level5 extends Phaser.Scene {
         });
 
         this.textContents = "You monster…";
+        this.cameras.main.shake(1000000000, 0.0009);
         this.text = this.add.text(5, 25, this.textContents, textConfig).setOrigin(0).setScrollFactor(0);
         this.arrow = this.add.image(0, 0, "arrow").setOrigin(0).setScrollFactor(0);
     }

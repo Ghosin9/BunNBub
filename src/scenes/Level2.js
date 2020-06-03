@@ -150,6 +150,10 @@ class Level2 extends Phaser.Scene {
         this.scrollCountImage = this.add.image(520, 8, "scrollCounter").setOrigin(0).setScrollFactor(0);
         this.scrollCount = this.add.text(555, 25, this.scrolls + "/2", scrollText).setOrigin(0).setScrollFactor(0);
 
+        //remove music
+        this.sound.stopAll();
+
+        //play background music
         this.sound.play("bg2", {volume: 0.1, loop: true});
     }
 

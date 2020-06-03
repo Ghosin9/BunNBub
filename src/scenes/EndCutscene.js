@@ -12,6 +12,8 @@ class EndCutscene extends Phaser.Scene {
         this.end6 = this.add.image(0, 0, "end6").setOrigin(0).setAlpha(0);
         this.end7 = this.add.image(0, 0, "end7").setOrigin(0).setAlpha(0);
 
+        this.cameras.main.shake(1000000000, 0.0009);
+
         let textConfig = {
             fontFamily: "Helvetica",
             fontSize: "20px",

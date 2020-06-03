@@ -213,6 +213,11 @@ class Player extends Phaser.Physics.Arcade.Sprite {
                     this.walking = true;
                     this.scene.sound.removeByKey("bunwalk");
                 } else if (this.body.velocity.y > 0) {
+
+                    if(this.body.velocity.y >= 500) {
+                        this.setVelocityY(500);
+                    }
+
                     if(!this.holding)
                         this.anims.play("fall", true);
 

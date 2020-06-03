@@ -13,10 +13,10 @@ class Door extends Phaser.Physics.Arcade.Sprite {
 
         this.transition = true;
 
-        this.scene.cameras.main.once("camerafadeoutcomplete", () => {
+        this.scene.cameras.main.once("camerafadeoutcomplete", () => { 
             //remove music
-            this.scene.sound.stopAll();
-            
+            this.scene.sound.removeByKey("bunwalk");
+
             this.scene.scene.start("transition");
             this.scene.scene.stop(this.currentLevel);
 

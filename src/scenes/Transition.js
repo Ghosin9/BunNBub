@@ -78,13 +78,15 @@ class Transition extends Phaser.Scene {
         }
 
         if(Phaser.Input.Keyboard.JustDown(this.cursors.right) && this.canPress) {
-            this.scene.start(this.nextLevel);
+            this.cameras.main.fadeOut(500)
+            this.cameras.main.once("camerafadeoutcomplete", () => {
+                this.scene.start(this.nextLevel);
+            });
         }
     }
 
     haiku() {
         this.add.image(0, 0, "arrow").setOrigin(0);
-
         this.canPress = true;
     }
 

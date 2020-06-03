@@ -129,6 +129,10 @@ class Tutorial extends Phaser.Scene {
         this.scrollCountImage = this.add.image(520, 8, "scrollCounter").setOrigin(0).setScrollFactor(0);
         this.scrollCount = this.add.text(555, 25, this.scrolls + "/0", scrollText).setOrigin(0).setScrollFactor(0);
 
+        //remove music
+        this.sound.stopAll();
+
+        //play background music
         this.sound.play("bgtut", {volume: 0.2, loop: true});
     }
 
