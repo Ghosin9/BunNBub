@@ -65,6 +65,12 @@ class Transition extends Phaser.Scene {
                 this.textContents = "Slays all challengers\n None ever made it past him\n Nor his jellyfish"
                 this.nextLevel = "level4";
                 break;
+            case "level4":
+                this.add.image(0, 0, "black").setOrigin(0);
+
+                this.textContents = "You’ve come all this way\n And finally it is time\n The boss always wins"
+                this.add.text(5, 140, this.textContents, textConfig);
+                break;
         }
 
         this.add.text(5, 10, this.textContents, textConfig);
@@ -105,11 +111,6 @@ class Transition extends Phaser.Scene {
         }
 
         switch(this.counter) {
-            case 1:
-                this.add.image(0, 0, "black").setOrigin(0);
-                this.textContents = "You’ve come all this way\n And finally it is time\n The boss always wins"
-                this.add.text(5, 140, this.textContents, textConfig);
-                break;
             case 4:
                 this.add.image(0, 0, "lastTransition", "eyes.png").setOrigin(0);
                 break;

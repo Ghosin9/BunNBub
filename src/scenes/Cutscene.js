@@ -31,6 +31,7 @@ class Cutscene extends Phaser.Scene {
         this.cameras.main.once("camerafadeoutcomplete", () => {
             this.cameras.main.fadeIn(1000);
         });
+        this.sound.play("beginbg");
     }
 
     update() {

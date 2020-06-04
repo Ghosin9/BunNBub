@@ -84,6 +84,8 @@ class Load extends Phaser.Scene {
         //sound assets
         this.load.path = "assets/sound/";
         //background music
+        //cutscene
+        this.load.audio("beginbg", "beginbg.wav");
         //tutorial
         this.load.audio("bgtut", "bgtut.wav");
         //lvl1
