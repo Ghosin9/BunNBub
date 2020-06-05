@@ -44,36 +44,38 @@ class Transition extends Phaser.Scene {
                 this.add.image(0, 0, "t1").setOrigin(0);
                 this.add.image(0, 0, "bars").setOrigin(0);
 
-                this.textContents = "Slept for days on end\n Amnesia has settled in\n The story unfolds"
+                this.textContents = "Slept for days on end\n Amnesia has settled in\n The story unfolds";
+                this.add.text(5, 10, this.textContents, textConfig);
                 this.nextLevel = "level1";
                 break;
             case "level1":
                 this.add.image(0, 0, "t2").setOrigin(0);
                 
-                this.textContents = "Stories of conquest\n A great leader we must face\n Never defeated"
+                this.textContents = "Stories of conquest\n A great leader we must face\n Never defeated";
+                this.add.text(5, 10, this.textContents, textConfig);
                 this.nextLevel = "level2";
                 break;
             case "level2":
                 this.add.image(0, 0, "t3").setOrigin(0);
 
-                this.textContents = "He rides great turtles\n Splashes in geysers for fun\n His name sends shivers"
+                this.textContents = "He rides great turtles\n Splashes in geysers for fun\n His name sends shivers";
+                this.add.text(5, 10, this.textContents, textConfig);
                 this.nextLevel = "level3";
                 break;
             case "level3":
                 this.add.image(0, 0, "t4").setOrigin(0);
 
-                this.textContents = "Slays all challengers\n None ever made it past him\n Nor his jellyfish"
+                this.textContents = "Slays all challengers\n None ever made it past him\n Nor his jellyfish";
+                this.add.text(5, 10, this.textContents, textConfig);
                 this.nextLevel = "level4";
                 break;
             case "level4":
                 this.add.image(0, 0, "black").setOrigin(0);
 
-                this.textContents = "You’ve come all this way\n And finally it is time\n The boss always wins"
-                this.add.text(5, 140, this.textContents, textConfig);
+                this.textContents = "You’ve come all this way\n And finally it is time\n The boss always wins";
+                this.add.text(5, 155, this.textContents, textConfig);
                 break;
         }
-
-        this.add.text(5, 10, this.textContents, textConfig);
     }
 
     update() {
@@ -97,18 +99,6 @@ class Transition extends Phaser.Scene {
     }
 
     changeCutscene() {
-
-        let textConfig = {
-            fontFamily: "Helvetica",
-            fontSize: "25px",
-            fontStyle: "bold",
-            align: "center",
-            color: "#ffffff",
-            fixedWidth: 630,
-            wordWrap: {
-                width: 630,
-            },
-        }
 
         switch(this.counter) {
             case 4:

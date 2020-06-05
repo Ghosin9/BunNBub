@@ -1,3 +1,15 @@
+// plugins used
+// PHASER we love phaser https://photonstorm.github.io/phaser3-docs/
+// Animated tiles library used from Richard Davey's https://github.com/nkholski/phaser-animated-tiles
+// -Used the the beginning of each level to animate tiles in Tiled
+// Nathan Altice, Professors at UCSC https://github.com/nathanaltice?tab=repositories 
+// -Specific uses of Nathan Altice's code are cited more specifically at those instances
+// Loading bar code https://www.patchesoft.com/phaser-3-loading-screen 
+
+// Brought to you by Team Windows XP Error Sound, Mia Kennedy, Vivian Pham, Ly Phung
+// 👉👈 pls explore the map 👉👈 we put a lot of work into it 👉👈 no speed runs allowed 👉👈
+// Last Updated: 6/4/20
+
 let config = {
     type: Phaser.CANVAS,
     width: 640,

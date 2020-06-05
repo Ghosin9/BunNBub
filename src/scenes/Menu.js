@@ -22,7 +22,6 @@ class Menu extends Phaser.Scene {
             repeat: -1,
         });
 
-        this.sound.stopAll();
         this.sound.play("menubg", {volume: 0.2, loop: true});
     }
 

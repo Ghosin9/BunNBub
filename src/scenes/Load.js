@@ -37,6 +37,7 @@ class Load extends Phaser.Scene {
         this.load.atlas("door", "door.png", "door.json");
         //scroll
         this.load.image("scroll", "scroll.png");
+        this.load.image("scroll2", "scroll_2.png")
         //scroll counter
         this.load.image("scrollCounter", "scroll_count_a.png");
         //geyser
@@ -51,8 +52,6 @@ class Load extends Phaser.Scene {
         this.load.path = "assets/ui/";
         //main menu
         this.load.image("mainMenu", "menu.png");
-        //pause
-        this.load.image("pauseImage", "pause.png");
         //credits
         this.load.image("creditsImage", "credits.png");
         //cutscene

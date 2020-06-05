@@ -127,12 +127,12 @@
         {
          "columns":20,
          "firstgid":1,
-         "image":"tilesheet_2.png",
-         "imageheight":256,
-         "imagewidth":320,
-         "margin":0,
+         "image":"tilesheet_2-extruded.png",
+         "imageheight":288,
+         "imagewidth":360,
+         "margin":1,
          "name":"tileset_2",
-         "spacing":0,
+         "spacing":2,
          "tilecount":320,
          "tileheight":16,
          "tiles":[

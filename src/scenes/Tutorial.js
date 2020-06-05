@@ -1,5 +1,3 @@
-//animated tiles library used from Richard Davey's https://github.com/nkholski/phaser-animated-tiles
-
 class Tutorial extends Phaser.Scene {
     constructor() {
         super("tutorial");
@@ -13,9 +11,11 @@ class Tutorial extends Phaser.Scene {
         //png of tilesheet
         //1st parameter is key indicator
         //2nd parameter is path to png
-        this.load.spritesheet("tilesheet", "tilesheet.png", {
+        this.load.spritesheet("tilesheet", "tilesheet-extruded.png", {
             frameWidth: 16,
             frameHeight: 16,
+            margin: 1,
+            spacing: 2,
         });
 
         //json tilemap created from Tiled
@@ -65,15 +65,15 @@ class Tutorial extends Phaser.Scene {
 
         //door
         let dSpawn = map.findObject("Objects", obj => obj.name == "doorEnd");
-        this.door = new Door(this, dSpawn.x, dSpawn.y, game.settings.currentLevel);
+        this.door = new Door(this, dSpawn.x, dSpawn.y);
 
         //create spawn point for player
         let pSpawn = map.findObject("Objects", obj => obj.name == "playerSpawn");
-        this.player = new Player(this, pSpawn.x, pSpawn.y, game.settings.currentLevel);
+        this.player = new Player(this, pSpawn.x, pSpawn.y);
 
         //bubble spawn
         let bSpawn = map.findObject("Objects", obj => obj.name == "bubbleSpawn");
-        this.bubble = new Bubble(this, bSpawn.x, bSpawn.y, game.settings.currentLevel);
+        this.bubble = new Bubble(this, bSpawn.x, bSpawn.y);
 
         //allow for player update and bubble update
         this.gameSprites = this.add.group({
@@ -102,14 +102,6 @@ class Tutorial extends Phaser.Scene {
         //world bounds
         this.physics.world.bounds.setTo(0, 0, map.widthInPixels, map.heightInPixels);
 
-        //temp instruction text
-        // this.hold = this.add.text(0, 0, "PRESS X TO GRAB", textConfig).setOrigin(0).setScrollFactor(0);
-        // this.arrow = this.add.text(0, 15, "ARROW KEYS TO MOVE", textConfig).setOrigin(0).setScrollFactor(0);
-        // this.r = this.add.text(0, 30, "R TO RESTART", textConfig).setOrigin(0).setScrollFactor(0);
-        // this.e = this.add.text(0, 45, "Z TO VIEW MAP", textConfig).setOrigin(0).setScrollFactor(0);
-        // this.control = this.add.text(0, 60, "CONTROL MAP WITH ARROW KEYS", textConfig).setOrigin(0).setScrollFactor(0);
-        // this.spikes = this.add.text(0, 75, "SPIKES ONLY HURT BUBBLE", textConfig).setOrigin(0).setScrollFactor(0);
-
         //set up camera to follow player
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
         this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
@@ -123,11 +115,6 @@ class Tutorial extends Phaser.Scene {
             color: "#ffffff",
             align: "left",
         }
-
-        //scroll indicator
-        this.scrolls = 0;
-        this.scrollCountImage = this.add.image(520, 8, "scrollCounter").setOrigin(0).setScrollFactor(0);
-        this.scrollCount = this.add.text(555, 25, this.scrolls + "/0", scrollText).setOrigin(0).setScrollFactor(0);
 
         //remove music
         this.sound.stopAll();

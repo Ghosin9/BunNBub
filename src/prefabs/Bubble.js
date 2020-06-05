@@ -1,14 +1,17 @@
 class Bubble extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, x, y, currentLevel) {
+    constructor(scene, x, y) {
         super(scene, x, y, "bubble", "bubble_1");
 
+        //add to scene
         scene.add.existing(this);
         scene.physics.add.existing(this);
 
+        //properties
         this.scene = scene;
+        //play the bubble sound
         this.bubbleSound = true;
+        //play the pop sound
         this.popSound = true;
-        this.currentLevel = currentLevel;
         this.cameraMain = this.scene.cameras.main;
 
         //physics
@@ -70,27 +73,33 @@ class Bubble extends Phaser.Physics.Arcade.Sprite {
 
         if(!this.anims.isPlaying) {
             //restart level
-            this.scene.scene.start(this.currentLevel);
+            this.scene.scene.start(game.settings.currentLevel);
             this.scene.sound.stopAll();
             //this.destroy();
         }
 
+        //if the player is not holding, allow gravity
         if(!this.scene.player.holding) {
             this.body.setAllowGravity(true);
         }
     }
 
     spikeCollision(bubble, spike) {
+        //play the pop sound, not overlapping
         if(this.popSound) {
             this.scene.sound.play("pop");
             this.popSound = false;
         }
 
+        //set holding to false
         this.scene.player.holding = false;
+
+        //stop the physics body
         this.body.stop();
         this.body.setAllowGravity(false);
         this.body.setImmovable(true);
 
+        //play the pop animation
         this.anims.play("bPop", true);
     }
 }

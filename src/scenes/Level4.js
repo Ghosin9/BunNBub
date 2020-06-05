@@ -1,5 +1,3 @@
-//animated tiles library used from Richard Davey's https://github.com/nkholski/phaser-animated-tiles
-
 class Level4 extends Phaser.Scene {
     constructor() {
         super("level4");
@@ -8,15 +6,6 @@ class Level4 extends Phaser.Scene {
     preload() {
         //animation plugin
         this.load.scenePlugin('AnimatedTiles', AnimatedTiles, "animatedTiles");
-
-        this.load.path = "./assets/level/";
-        //png of tilesheet
-        //1st parameter is key indicator
-        //2nd parameter is path to png
-        this.load.spritesheet("tilesheet", "tilesheet.png", {
-            frameWidth: 16,
-            frameHeight: 16,
-        });
 
         this.load.path = "./assets/level/";
         //json tilemap created from Tiled
@@ -74,7 +63,7 @@ class Level4 extends Phaser.Scene {
 
         //door
         let dSpawn = map.findObject("Objects", obj => obj.name == "doorEnd");
-        this.door = new Door(this, dSpawn.x, dSpawn.y, game.settings.currentLevel);
+        this.door = new Door(this, dSpawn.x, dSpawn.y);
 
         //turtle
         let turtleList = map.filterObjects("Objects", obj => obj.name == "turtleSpawn");
@@ -102,12 +91,12 @@ class Level4 extends Phaser.Scene {
         //create spawn point for player
         let pSpawn = map.findObject("Objects", obj => obj.name == "playerSpawn");
         //create player 
-        this.player = new Player(this, pSpawn.x, pSpawn.y, "level4");
+        this.player = new Player(this, pSpawn.x, pSpawn.y);
 
         //bubble spawn
         let bSpawn = map.findObject("Objects", obj => obj.name == "bubbleSpawn");
         //create bubble
-        this.bubble = new Bubble(this, bSpawn.x, bSpawn.y, "level4");
+        this.bubble = new Bubble(this, bSpawn.x, bSpawn.y);
 
         //allow for player update and bubble update
         this.gameSprites = this.add.group({
@@ -185,21 +174,22 @@ class Level4 extends Phaser.Scene {
             }
         } else {
             this.random = Phaser.Math.Between(1, 2);
+            jelly.anims.play("scrollSwitch", true);
             switch(this.random) {
                 case 1:
                     if(!jelly.talking) {
                         this.sound.play("scroll1", {volume: 0.5});
-                        jelly.talking = true;
                         ++this.scrolls;
-                        this.scrollCount.text = this.scrolls + "/5";
+                        this.scrollCount.text = this.scrolls + "/2";
+                        jelly.talking = true;
                     }
                     break;
                 case 2:
                     if(!jelly.talking) {
                         this.sound.play("scroll2", {volume: 0.5});
-                        jelly.talking = true;
                         ++this.scrolls;
-                        this.scrollCount.text = this.scrolls + "/5";
+                        this.scrollCount.text = this.scrolls + "/2";
+                        jelly.talking = true;
                     }
                     break;
             }

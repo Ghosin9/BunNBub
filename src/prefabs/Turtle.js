@@ -2,19 +2,24 @@ class Turtle extends Phaser.Physics.Arcade.Sprite {
     constructor(scene, x, y, numTiles) {
         super(scene, x, y, "turtle", "turtle_1").setOrigin(1, 0);
 
+        //add to scene
         scene.add.existing(this);
         scene.physics.add.existing(this);
 
+        //set immovable and no gravity
         this.body.setImmovable(true);
         this.body.setAllowGravity(false);
 
+        //properties
         this.scene = scene;
+        //number of tiles that the turtle travels
         this.numTiles = numTiles*16;
+        //counter telling the progress of the turtle
         this.counter = 0;
+        //flipped animation
         this.flipped = false;
 
-        this.moveObject = false;
-
+        //swimming animation
         this.scene.anims.create({
             key: "tIdle",
                 frames: this.scene.anims.generateFrameNames("turtle", {
@@ -26,9 +31,10 @@ class Turtle extends Phaser.Physics.Arcade.Sprite {
                 frameRate: 3,
         });
 
+        //play animation
         this.anims.play("tIdle");
 
-        //move at a consistent spee
+        //move at a consistent speed, but because of different distances traveled, some turtles will flip at different rates
         this.scene.time.addEvent({
             delay: 5,
             callback: this.move,
@@ -54,16 +60,20 @@ class Turtle extends Phaser.Physics.Arcade.Sprite {
     }
 
     move() {
+        //counting the number of tiles
         if(this.counter < this.numTiles){
+            //move left if not flipped
             if(!this.flipped) {
                 --this.x;
                 this.setFlipX(this.flipped);
-            } else {
+            } else { //move right if flipped
                 ++this.x;
                 this.setFlipX(this.flipped);
             }
+            //increase counter
             ++this.counter;
         } else {
+            //if you reach the needed number of tiles traveled, flip the turtle
             this.counter = 0;
             this.flipped = !this.flipped;
         }

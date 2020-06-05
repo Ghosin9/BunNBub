@@ -1,5 +1,3 @@
-//animated tiles library used from Richard Davey's https://github.com/nkholski/phaser-animated-tiles
-
 class Level5 extends Phaser.Scene {
     constructor() {
         super("level5");
@@ -13,7 +11,7 @@ class Level5 extends Phaser.Scene {
         //png of tilesheet
         //1st parameter is key indicator
         //2nd parameter is path to png
-        this.load.spritesheet("tilesheet2", "tilesheet_2.png", {
+        this.load.spritesheet("tilesheet2", "tilesheet_2-extruded.png", {
             frameWidth: 16,
             frameHeight: 16,
         });
@@ -56,12 +54,12 @@ class Level5 extends Phaser.Scene {
         //create spawn point for player
         let pSpawn = map.findObject("Objects", obj => obj.name == "playerSpawn");
         //create player 
-        this.player = new Player(this, pSpawn.x, pSpawn.y, game.settings.currentLevel);
+        this.player = new Player(this, pSpawn.x, pSpawn.y);
 
         //bubble spawn
         let bSpawn = map.findObject("Objects", obj => obj.name == "bubbleSpawn");
         //create bubble
-        this.bubble = new Bubble(this, bSpawn.x, bSpawn.y, game.settings.currentLevel);
+        this.bubble = new Bubble(this, bSpawn.x, bSpawn.y);
 
         //allow for player update and bubble update
         this.gameSprites = this.add.group({
@@ -166,7 +164,6 @@ class Level5 extends Phaser.Scene {
             this.player.setAccelerationX(0);
 
             this.sound.removeByKey("bunwalk");
-            this.sound.removeByKey("bgend");
         }
 
         if(this.playingCutscene) {
@@ -217,6 +214,7 @@ class Level5 extends Phaser.Scene {
                     this.time.addEvent({
                         delay: 2000,
                         callback: () => {
+                            this.sound.removeByKey("bgend");
                             this.scene.start("credits");
                         },
                         callbackScope: this,

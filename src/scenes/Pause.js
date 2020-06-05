@@ -1,6 +1,6 @@
 class Pause extends Phaser.Scene {
     constructor() {
-        super("pause");
+        super({key: "pause", pack: {files: [ { type: "image", key: "pauseImage", url:"assets/ui/pause.png"}]}});
     }
 
     create() {

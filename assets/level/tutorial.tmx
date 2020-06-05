@@ -3,8 +3,8 @@
  <editorsettings>
   <export target="tutorial.json" format="json"/>
  </editorsettings>
- <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16" tilecount="693" columns="33">
-  <image source="tilesheet.png" width="528" height="336"/>
+ <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16" spacing="2" margin="1" tilecount="748" columns="33">
+  <image source="tilesheet-extruded.png" width="594" height="378"/>
   <tile id="0">
    <properties>
     <property name="collides" type="bool" value="false"/>

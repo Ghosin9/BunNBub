@@ -3,8 +3,8 @@
  <editorsettings>
   <export target="room_5.json" format="json"/>
  </editorsettings>
- <tileset firstgid="1" name="tileset_2" tilewidth="16" tileheight="16" tilecount="320" columns="20">
-  <image source="tilesheet_2.png" width="320" height="256"/>
+ <tileset firstgid="1" name="tileset_2" tilewidth="16" tileheight="16" spacing="2" margin="1" tilecount="320" columns="20">
+  <image source="tilesheet_2-extruded.png" width="360" height="288"/>
   <tile id="0">
    <properties>
     <property name="collides" type="bool" value="false"/>
